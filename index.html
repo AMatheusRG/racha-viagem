@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f1115">
+<title>Racha Viagem</title>
+<meta name="description" content="Organize as provisões e divida os gastos da viagem com a galera.">
+<meta property="og:title" content="Racha Viagem ✈️">
+<meta property="og:description" content="Entre na viagem e divida os gastos com o grupo — sem cadastro.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Racha Viagem">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --bg:#0f1115;--card:#181b22;--card2:#1f232c;--line:#2a2f3a;
+  --tx:#f0efec;--tx2:#c3c2b7;--mut:#8b8a83;
+  --ac:#2bb3a0;--ac2:#1d8577;--acTx:#04201c;
+  --pos:#3987e5;--neg:#e66767;--warn:#fab219;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{overflow-x:clip;margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left)}
+#app{max-width:440px;margin:0 auto;min-height:100vh;padding-bottom:calc(150px + env(safe-area-inset-bottom))}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+input,select,textarea{font-size:16px;font-family:inherit;color:var(--tx);background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;min-width:0;outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--ac)}
+input[type=date]{-webkit-appearance:none;appearance:none;display:block;min-height:44px;color-scheme:dark}
+textarea{min-height:80px;resize:vertical}
+a{color:var(--ac)}
+.top{position:sticky;top:0;z-index:20;background:rgba(15,17,21,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line)}
+.top h1{font-size:17px;margin:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ib{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:17px;background:var(--card);flex:none}
+.cloud{font-size:12px;padding:5px 9px;border-radius:999px;background:var(--card);color:var(--tx2);white-space:nowrap;flex:none}
+.cloud.off{color:var(--warn)}
+.wrap{padding:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}
+.card h3{margin:0 0 10px;font-size:13px;font-weight:600;color:var(--tx2);text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center;gap:6px}
+.card h3 .sp{flex:1}
+.mut{color:var(--mut)}.small{font-size:13px}.tiny{font-size:12px}
+.row{display:flex;align-items:center;gap:10px}
+.row>*{min-width:0}
+.grow{flex:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 16px;border-radius:12px;background:var(--ac);color:var(--acTx);font-weight:700;min-height:46px}
+.btn.sec{background:var(--card2);color:var(--tx);border:1px solid var(--line);font-weight:600}
+.btn.dan{background:transparent;color:var(--neg);border:1px solid #5a2d2d;font-weight:600}
+.btn.full{width:100%}
+.btn.sm{padding:7px 12px;min-height:34px;font-size:13px;border-radius:10px}
+.lnk{color:var(--ac);font-weight:600;font-size:13px}
+/* tabs */
+.tabs{position:fixed;bottom:0;left:0;right:0;z-index:30;background:rgba(18,20,26,.97);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.tabs .in{max-width:440px;margin:0 auto;display:flex}
+.tabs button{flex:1;padding:8px 0 10px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--mut)}
+.tabs button b{font-size:20px;font-weight:400;line-height:1.2}
+.tabs button.on{color:var(--ac)}
+.fab{position:fixed;z-index:31;right:max(16px,calc(50% - 204px));bottom:calc(76px + env(safe-area-inset-bottom));width:58px;height:58px;border-radius:18px;background:var(--ac);color:var(--acTx);font-size:30px;font-weight:300;box-shadow:0 6px 20px rgba(0,0,0,.45)}
+/* hero */
+.hero{background:linear-gradient(135deg,#17312f,#181b22 70%);border-color:#24423f}
+.big{font-size:32px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.num{font-variant-numeric:tabular-nums}
+.av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;color:#0b0b0b;flex:none;border:2px solid var(--card)}
+.av.s{width:26px;height:26px;font-size:11px}
+.av.l{width:44px;height:44px;font-size:16px}
+.avs{display:flex}.avs .av{margin-left:-8px}.avs .av:first-child{margin-left:0}
+/* stacked bar */
+.stack{display:flex;height:16px;border-radius:5px;overflow:hidden;gap:2px;background:var(--card)}
+.stack i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:10px;font-size:12px;color:var(--tx2)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.sw{width:10px;height:10px;border-radius:3px;display:inline-block;flex:none}
+/* category bars */
+.cb{display:block;width:100%;text-align:left;padding:8px 0;border-top:1px solid var(--line)}
+.cb:first-of-type{border-top:0}
+.cb .l{display:flex;align-items:center;gap:8px;font-size:14px;margin-bottom:6px}
+.cb .l .v{margin-left:auto;font-weight:700}
+.track{position:relative;height:10px;background:var(--card2);border-radius:4px}
+.track i{position:absolute;left:0;top:0;bottom:0;border-radius:0 4px 4px 0;min-width:3px}
+.track .bud{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--tx2);border-radius:1px}
+.over{color:var(--neg);font-size:12px;font-weight:600}
+/* diverging */
+.dv{display:grid;grid-template-columns:92px 1fr;align-items:center;gap:8px;padding:6px 0}
+.dv .nm{display:flex;align-items:center;gap:6px;font-size:13px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.dvt{position:relative;height:26px}
+.dvt .mid{position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line)}
+.dvt i{position:absolute;top:5px;height:16px}
+.dvt i.p{left:calc(50% + 1px);background:var(--pos);border-radius:0 4px 4px 0}
+.dvt i.n{right:calc(50% + 1px);background:var(--neg);border-radius:4px 0 0 4px}
+.dvt span{position:absolute;top:4px;font-size:12px;font-weight:700;white-space:nowrap}
+.pos{color:#7fb3f0}.neg{color:#f09090}
+/* lists */
+.li{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line);width:100%;text-align:left}
+.li:first-child{border-top:0}
+.ci{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:19px;flex:none}
+.li>.grow{min-width:0}
+.li .t{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.li .s{font-size:12px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.li .v{font-weight:700;text-align:right;flex:none}
+.day{font-size:12px;color:var(--mut);margin:14px 2px 4px}
+.badge{display:inline-block;font-size:11px;padding:2px 7px;border-radius:999px;background:#3a3010;color:var(--warn);font-weight:600}
+.badge.b{background:#15283f;color:#8fbcf2}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:7px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:13px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.chip.on{background:#173a36;border-color:var(--ac);color:#bff3ea}
+.wr{flex-wrap:wrap;overflow:visible}
+/* provisions */
+.chk{width:30px;height:30px;border-radius:9px;border:2px solid var(--line);display:grid;place-items:center;flex:none;font-size:16px}
+.chk.on{background:var(--ac);border-color:var(--ac);color:var(--acTx)}
+.done .t{text-decoration:line-through;color:var(--mut)}
+.prog{height:8px;border-radius:4px;background:var(--card2);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--ac);border-radius:0 4px 4px 0}
+/* transfers */
+.tr{display:flex;align-items:center;gap:8px;padding:12px 0;border-top:1px solid var(--line)}
+.tr:first-child{border-top:0}
+.arrow{color:var(--mut);font-size:18px}
+/* sheet */
+.bk{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:50;display:flex;align-items:flex-end;justify-content:center}
+.sh{background:#14171d;width:100%;max-width:440px;max-height:92vh;overflow-y:auto;border-radius:20px 20px 0 0;padding:8px 16px calc(20px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}
+.sh .grip{width:40px;height:4px;border-radius:2px;background:var(--line);margin:4px auto 10px}
+.sh h2{font-size:19px;margin:0 0 14px;display:flex;align-items:center;gap:8px}
+.sh h2 .x{margin-left:auto}
+.fl{display:block;font-size:12px;color:var(--tx2);margin:14px 0 6px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.money{font-size:28px!important;font-weight:800;text-align:center;padding:12px}
+.seg{display:flex;background:var(--card2);border-radius:12px;padding:3px;gap:2px;overflow-x:auto}
+.seg button{flex:1;padding:9px 6px;border-radius:9px;font-size:13px;color:var(--tx2);white-space:nowrap}
+.seg button.on{background:var(--ac);color:var(--acTx);font-weight:700}
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.cats button{padding:9px 4px;border-radius:12px;background:var(--card2);border:1px solid var(--line);font-size:12px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.cats button b{font-size:20px;font-weight:400}
+.cats button.on{border-color:var(--ac);background:#173a36}
+.pp{display:flex;flex-wrap:wrap;gap:8px}
+.pp button{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;width:58px;opacity:.38}
+.pp button.on,.pp.all button{opacity:1}
+.pp button.on .av{box-shadow:0 0 0 2px var(--ac)}
+.prev{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:12px}
+.pr{display:grid;grid-template-columns:70px 1fr 74px;gap:8px;align-items:center;font-size:13px;padding:3px 0}
+.pr .bar{height:8px;border-radius:0 4px 4px 0;background:var(--ac)}
+.itm{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:8px}
+.err{color:var(--neg);font-size:13px;margin-top:8px;font-weight:600}
+.ok{color:#7fd8c9;font-size:13px;margin-top:8px}
+.stp{display:flex;align-items:center;gap:4px;flex:none}
+.stp button{width:30px;height:30px;border-radius:8px;background:var(--card2);border:1px solid var(--line);font-size:16px}
+.stp span{min-width:34px;text-align:center;font-weight:700;font-size:14px}
+.empty{text-align:center;padding:30px 16px;color:var(--mut)}
+.empty .e{font-size:44px;margin-bottom:8px}
+.empty b{color:var(--tx);display:block;font-size:16px;margin-bottom:4px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(150px + env(safe-area-inset-bottom));background:#2b313d;color:var(--tx);padding:10px 16px;border-radius:12px;z-index:80;font-size:14px;max-width:90%;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+.cf{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:20px}
+.cf .bx{background:#1b1f27;border:1px solid var(--line);border-radius:16px;padding:18px;max-width:360px;width:100%}
+.tcard{display:block;width:100%;text-align:left}
+.code{font-family:ui-monospace,Menlo,monospace;font-size:24px;font-weight:800;letter-spacing:.18em;text-align:center;padding:10px;background:var(--card2);border-radius:12px;user-select:all;-webkit-user-select:all}
+.banner{background:#2a2410;border:1px solid #4d4215;color:#f3d98a;border-radius:12px;padding:10px 12px;font-size:13px;margin-bottom:12px;display:flex;gap:8px;align-items:center}
+.welcome{padding:30px 18px;text-align:center}
+.welcome .logo{font-size:64px}
+.welcome h1{font-size:26px;margin:8px 0 6px}
+.welcome p{color:var(--tx2);margin:0 0 24px}
+.welcome .btn{margin-bottom:10px}
+.feat{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:0 0 24px;text-align:left}
+.feat div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;font-size:13px;color:var(--tx2)}
+.feat b{display:block;font-size:20px}
+.ver{font-size:11px;color:var(--mut);text-align:center;margin:20px 0}
+.tagbox{display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:6px}
+.tagbox:focus-within{border-color:var(--ac)}
+.tag{display:inline-flex;align-items:center;gap:6px;background:#173a36;border:1px solid #24584f;border-radius:999px;padding:3px 4px 3px 4px;font-size:14px}
+.tag .av{width:22px;height:22px;font-size:10px;border:0}
+.tag button{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:var(--tx2);font-size:12px}
+.tagbox input{border:0;background:transparent;flex:1;min-width:140px;padding:8px 6px}
+.link{font-family:ui-monospace,Menlo,monospace;font-size:12px;word-break:break-all;background:var(--card2);border-radius:10px;padding:10px;color:var(--tx2);user-select:all;-webkit-user-select:all}
+.spin{display:inline-block;width:18px;height:18px;border:2px solid var(--line);border-top-color:var(--ac);border-radius:50%;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="tabs"></div>
+<div id="fab"></div>
+<div id="sheet"></div>
+<div id="cf"></div>
+<div id="toast"></div>
+<script>
+'use strict';
+const APPV = '0.3.0';
+// Supabase: URL e chave PUBLICÁVEL (feita para ficar no app; quem protege os dados são as regras RLS do banco)
+const SB_URL = 'https://praisiwdxpwgtcyqrxcb.supabase.co';
+const SB_KEY = 'sb_publishable_CRnn6Y0DPZ1KeZ0Df7aIWQ_efMbOwXI';
+const APPURL = location.origin + location.pathname.replace(/index\.html$/,'');
+
+
+/* ---------- constantes ---------- */
+const CATS = [
+  {k:'mercado',n:'Mercado',e:'🛒',c:'#3987e5'},
+  {k:'bebidas',n:'Bebidas',e:'🍺',c:'#d95926'},
+  {k:'combustivel',n:'Combustível',e:'⛽',c:'#199e70'},
+  {k:'hospedagem',n:'Hospedagem',e:'🏠',c:'#c98500'},
+  {k:'restaurante',n:'Restaurante',e:'🍽️',c:'#d55181'},
+  {k:'transporte',n:'Transporte/pedágio',e:'🚗',c:'#0ca30c'},
+  {k:'passeios',n:'Passeios',e:'🎟️',c:'#9085e9'},
+  {k:'contas',n:'Contas',e:'🧾',c:'#e66767'},
+  {k:'outros',n:'Outros',e:'📦',c:'#8a8980'},
+];
+const CAT = Object.fromEntries(CATS.map(c=>[c.k,c]));
+const AVC = ['#6da7ec','#f0905f','#4fcf9c','#f2c14e','#ef8fb4','#66cc66','#a99ef0','#f08a8a','#5fd0d6','#d6b38a'];
+const EMOJIS = ['🏖️','⛰️','🏕️','🎉','🚗','✈️','🏠','🎣','🍻','❄️','🌴','💼'];
+const MODOS = [
+  {k:'igual',n:'Igual'},{k:'cota',n:'Por cota'},{k:'itens',n:'Por item'},{k:'manual',n:'Manual'},{k:'depois',n:'Depois'}
+];
+
+/* ---------- utilidades ---------- */
+const $ = s => document.querySelector(s);
+const h = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clone = o => JSON.parse(JSON.stringify(o));
+const now = () => Date.now();
+const rid = (n=8) => { const a='abcdefghijkmnpqrstuvwxyz23456789'; let s=''; for(let i=0;i<n;i++) s+=a[Math.floor(Math.random()*a.length)]; return s; };
+const tripCode = () => { const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s=''; for(let i=0;i<6;i++) s+=a[Math.floor(Math.random()*a.length)]; return s; };
+const today = () => { const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
+const fmtR = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
+const R = c => fmtR.format((c||0)/100);
+const R0 = c => fmtR.format(Math.round((c||0)/100)).replace(/,00$/,'');
+function parseMoney(s){
+  s = String(s||'').replace(/[R$\s]/g,'');
+  if(!s) return 0;
+  if(s.includes(',')) s = s.replace(/\./g,'').replace(',', '.');
+  else if((s.match(/\./g)||[]).length>1) s = s.replace(/\./g,'');
+  const v = parseFloat(s);
+  return isFinite(v) && v>0 ? Math.round(v*100) : 0;
+}
+const moneyIn = c => c ? (c/100).toFixed(2).replace('.',',') : '';
+function fmtDia(d){
+  if(!d) return '';
+  const dt = new Date(d+'T12:00:00');
+  const t = dt.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'short'}).replace(/\.$/,'');
+  return t.charAt(0).toUpperCase()+t.slice(1);
+}
+function fmtCurto(d){ if(!d) return ''; const [y,m,dd]=d.split('-'); return dd+'/'+m; }
+const initials = n => (String(n||'').replace(/\(.*?\)/g,'').replace(/[^\p{L}\s]/gu,'').trim().split(/\s+/).filter(Boolean).map(p=>p[0]).join('').slice(0,2) || '?').toUpperCase();
+
+/* ---------- regra de negócio: divisão ---------- */
+// divide `c` centavos entre `ids` com pesos; soma exata (maior resto)
+function splitW(c, ids, wf){
+  ids = (ids||[]).filter((v,i,a)=>a.indexOf(v)===i);
+  const out = {};
+  if(!ids.length || c<=0) return out;
+  let ws = ids.map(id => Math.max(0, Number(wf(id))||0));
+  let W = ws.reduce((a,b)=>a+b,0);
+  if(W<=0){ ws = ids.map(()=>1); W = ids.length; }
+  let tot = 0; const fr = [];
+  ids.forEach((id,i)=>{ const raw = c*ws[i]/W; const f = Math.floor(raw); out[id]=f; tot+=f; fr.push([raw-f,i]); });
+  fr.sort((a,b)=>b[0]-a[0] || a[1]-b[1]);
+  let left = c - tot, k = 0;
+  while(left>0 && fr.length){ out[ids[fr[k%fr.length][1]]]++; left--; k++; }
+  for(const id of ids) if(!out[id]) delete out[id];
+  return out;
+}
+function addTo(o,p){ for(const k in p) o[k]=(o[k]||0)+p[k]; return o; }
+function cotaOf(tr,id){ const m=(tr.meta.members||[]).find(x=>x.id===id); return m ? (m.cota ?? 1) : 1; }
+// quanto cada pessoa deve de um gasto. null = "dividir depois"
+function sharesOf(g, tr){
+  const cw = id => cotaOf(tr,id);
+  switch(g.modo){
+    case 'igual': return splitW(g.valor, g.part, ()=>1);
+    case 'cota': return splitW(g.valor, g.part, cw);
+    case 'manual': { const o={}; for(const k in (g.man||{})) if(g.man[k]>0) o[k]=g.man[k]; return o; }
+    case 'itens': {
+      const wf = g.cotas ? cw : ()=>1; const o={}; let rest=g.valor;
+      for(const it of (g.itens||[])){ addTo(o, splitW(it.valor, it.part, wf)); rest -= it.valor; }
+      if(rest>0) addTo(o, splitW(rest, g.part, wf));
+      return o;
+    }
+    default: return null;
+  }
+}
+function validG(g){
+  if(!(g.valor>0)) return 'Informe o valor.';
+  if(!g.pagou) return 'Escolha quem pagou.';
+  if(g.modo==='igual'||g.modo==='cota'){ if(!(g.part||[]).length) return 'Escolha pelo menos uma pessoa na divisão.'; }
+  if(g.modo==='manual'){
+    const s = Object.values(g.man||{}).reduce((a,b)=>a+(b||0),0);
+    if(s!==g.valor) return s<g.valor ? 'Faltam '+R(g.valor-s)+' para fechar o total.' : 'Passou '+R(s-g.valor)+' do total.';
+  }
+  if(g.modo==='itens'){
+    const its = g.itens||[]; let s=0;
+    for(const [i,it] of its.entries()){
+      if(!(it.valor>0)) return 'Item '+(i+1)+': informe o valor.';
+      if(!(it.part||[]).length) return 'Item '+(i+1)+': escolha quem divide.';
+      s += it.valor;
+    }
+    if(s>g.valor) return 'Os itens somam '+R(s)+', mais que o total.';
+    if(s<g.valor && !(g.part||[]).length) return 'Escolha quem divide o restante.';
+  }
+  return '';
+}
+// saldos: + recebe / - deve
+function calc(tr){
+  const mem = tr.meta.members||[];
+  const paid={}, owed={}, byCat={}, byCatPend={};
+  let total=0, pend=0, pendN=0;
+  mem.forEach(m=>{paid[m.id]=0; owed[m.id]=0;});
+  for(const g of Object.values(tr.g||{})){
+    if(g.tipo==='p'){ paid[g.de]=(paid[g.de]||0)+g.valor; owed[g.para]=(owed[g.para]||0)+g.valor; continue; }
+    total += g.valor;
+    byCat[g.cat] = (byCat[g.cat]||0) + g.valor;
+    const sh = sharesOf(g,tr);
+    if(!sh){ pend+=g.valor; pendN++; continue; }
+    paid[g.pagou]=(paid[g.pagou]||0)+g.valor;
+    addTo(owed, sh);
+  }
+  const bal={}; const ids = new Set([...Object.keys(paid),...Object.keys(owed)]);
+  ids.forEach(id=>bal[id]=(paid[id]||0)-(owed[id]||0));
+  return {paid, owed, bal, total, pend, pendN, byCat};
+}
+// consumo real (só gastos, sem pagamentos de acerto)
+function consumo(tr){
+  const o={};
+  for(const g of Object.values(tr.g||{})){ if(g.tipo==='p') continue; const sh=sharesOf(g,tr); if(sh) addTo(o,sh); }
+  return o;
+}
+function settle(bal){
+  const cr=[], db=[];
+  for(const id in bal){ const v=bal[id]; if(v>0) cr.push([id,v]); else if(v<0) db.push([id,-v]); }
+  cr.sort((a,b)=>b[1]-a[1]); db.sort((a,b)=>b[1]-a[1]);
+  const out=[]; let i=0,j=0;
+  while(i<db.length && j<cr.length){
+    const v=Math.min(db[i][1],cr[j][1]);
+    if(v>0) out.push({de:db[i][0],para:cr[j][0],valor:v});
+    db[i][1]-=v; cr[j][1]-=v;
+    if(db[i][1]===0) i++; if(cr[j][1]===0) j++;
+  }
+  return out;
+}
+
+/* ---------- estado ---------- */
+// Fonte da verdade: Supabase. S = cópia local (cache por conta) para abrir rápido e sem internet.
+// U = estado da interface (não salvo).
+let S = { v:2, uid:null, trips:{}, my:[], me:{}, cur:null, seen:false };
+const U = { view:'trips', tab:'resumo', sheet:null, f:null, cloud:'loading', fcat:null, fpess:null, lfil:'todos', canWrite:true, toastT:null, booted:false };
+let sb=null, USER=null, UID=null;
+const LSK2 = uid => 'rachaviagem:v2:'+(uid||'anon');
+
+function migrate(s){
+  s = Object.assign({ v:2, uid:null, trips:{}, my:[], me:{}, cur:null, seen:false }, s||{});
+  for(const id in s.trips){
+    const tr = s.trips[id];
+    tr.meta = tr.meta||{}; tr.g = tr.g||{}; tr.it = tr.it||{};
+    tr.meta.members = (tr.meta.members||[]).map((m,i)=>Object.assign({cota:1,pix:'',tel:'',c:i%AVC.length},m));
+    tr.meta.orc = tr.meta.orc||{};
+  }
+  s.my = (s.my||[]).filter(id=>s.trips[id]);
+  return s;
+}
+function loadCache(uid){ try{ const r=localStorage.getItem(LSK2(uid)); S = migrate(r?JSON.parse(r):{}); }catch(e){ S=migrate({}); } S.uid=uid; }
+function saveLocal(){ try{ localStorage.setItem(LSK2(S.uid), JSON.stringify(S)); }catch(e){} }
+function touch(){}
+
+const T = id => S.trips[id];
+const curT = () => S.cur && S.trips[S.cur] ? S.trips[S.cur] : null;
+const isCloud = tr => tr && !tr.meta.demo;
+const mem = (tr,id) => (tr.meta.members||[]).find(m=>m.id===id);
+const mName = (tr,id) => (mem(tr,id)||{}).nome || '—';
+const meId = tr => tr.meta.demo ? S.me[tr.meta.id] : ((tr.meta.members||[]).find(m=>m.uid && m.uid===UID)||{}).id;
+function av(tr,id,cls=''){
+  const m = mem(tr,id) || {nome:'?',c:0};
+  return `<span class="av ${cls}" style="background:${AVC[(m.c||0)%AVC.length]}" title="${h(m.nome)}">${h(initials(m.nome))}</span>`;
+}
+function uuid(){
+  if(window.crypto && crypto.randomUUID) { try{ return crypto.randomUUID(); }catch(e){} }
+  const b=new Uint8Array(16); crypto.getRandomValues(b); b[6]=(b[6]&15)|64; b[8]=(b[8]&63)|128;
+  const x=[...b].map(v=>v.toString(16).padStart(2,'0')).join('');
+  return `${x.slice(0,8)}-${x.slice(8,12)}-${x.slice(12,16)}-${x.slice(16,20)}-${x.slice(20)}`;
+}
+
+/* ---------- Supabase: conversão linha do banco <-> app ---------- */
+const rowToMember = r => ({id:r.id, nome:r.nome, cota:Number(r.cota), pix:r.pix||'', tel:r.tel||'', c:r.cor||0, uid:r.user_id||null, _t:r.created_at});
+const rowToMeta = (r, members) => ({id:r.id, code:r.code, name:r.name, emoji:r.emoji, ini:r.ini||'', fim:r.fim||'', orc:r.orc||{}, by:r.created_by, criado:r.created_at, members});
+function rowToG(r){
+  const t = Date.parse(r.updated_at||r.created_at)||0;
+  if(r.tipo==='p') return {id:r.id, tipo:'p', de:r.de, para:r.para, valor:Number(r.valor), data:r.data, por:r.created_by, t};
+  const g = {id:r.id, tipo:'g', desc:r.descr||'', cat:r.cat, valor:Number(r.valor), pagou:r.pagou, data:r.data, modo:r.modo, part:r.part||[], cotas:!!r.cotas, por:r.created_by, t};
+  if(r.modo==='manual') g.man = r.man||{};
+  if(r.modo==='itens') g.itens = r.itens||[];
+  if(r.item_id) g.item = r.item_id;
+  return g;
+}
+const gToRow = (tid,g) => g.tipo==='p'
+  ? {id:g.id, trip_id:tid, tipo:'p', descr:'', cat:'outros', valor:g.valor, pagou:null, de:g.de, para:g.para, data:g.data||today(), modo:null, part:[], man:{}, itens:[], cotas:false, item_id:null}
+  : {id:g.id, trip_id:tid, tipo:'g', descr:(g.desc||'').slice(0,120), cat:g.cat, valor:g.valor, pagou:g.pagou, de:null, para:null, data:g.data||today(), modo:g.modo, part:g.part||[], man:g.man||{}, itens:g.itens||[], cotas:!!g.cotas, item_id:g.item||null};
+const rowToIt = r => ({id:r.id, nome:r.nome, qtd:r.qtd||'', cat:r.cat, resp:r.resp, status:r.status, gid:r.gasto_id||undefined, ord:r.ord||0, t:Date.parse(r.updated_at)||0});
+const itToRow = (tid,i) => ({id:i.id, trip_id:tid, nome:i.nome, qtd:i.qtd||'', cat:i.cat||'outros', resp:i.resp||null, status:i.status||'pend', gasto_id:i.gid||null, ord:i.ord||0});
+const byCreated = (a,b) => String(a._t||'').localeCompare(String(b._t||'')) || (a.c-b.c);
+
+/* ---------- Supabase: leitura ---------- */
+async function fetchTrips(onlyId){
+  let q = sb.from('trips').select('*');
+  if(onlyId) q = q.eq('id', onlyId);
+  const {data:trips, error} = await q;
+  if(error) throw error;
+  const ids = trips.map(t=>t.id);
+  let M=[], E=[], I=[];
+  if(ids.length){
+    const [a,b,c] = await Promise.all([
+      sb.from('trip_members').select('*').in('trip_id', ids),
+      sb.from('expenses').select('*').in('trip_id', ids),
+      sb.from('items').select('*').in('trip_id', ids),
+    ]);
+    for(const r of [a,b,c]) if(r.error) throw r.error;
+    M=a.data||[]; E=b.data||[]; I=c.data||[];
+  }
+  for(const t of trips){
+    const tr = { meta: rowToMeta(t, M.filter(m=>m.trip_id===t.id).map(rowToMember).sort(byCreated)), g:{}, it:{} };
+    E.filter(e=>e.trip_id===t.id).forEach(e=>{ tr.g[e.id]=rowToG(e); });
+    I.filter(i=>i.trip_id===t.id).forEach(i=>{ tr.it[i.id]=rowToIt(i); });
+    S.trips[t.id] = tr;
+  }
+  if(!onlyId){
+    for(const id of Object.keys(S.trips)) if(!S.trips[id].meta.demo && !ids.includes(id)) delete S.trips[id];
+    const cloud = trips.slice().sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at))).map(t=>t.id);
+    S.my = [...cloud, ...S.my.filter(id=>S.trips[id] && S.trips[id].meta.demo)];
+  } else if(ids.length && !S.my.includes(onlyId)) S.my.unshift(onlyId);
+  if(S.my.length) S.seen = true;
+  saveLocal();
+  return trips;
+}
+
+/* ---------- Supabase: tempo real ---------- */
+let chan=null, rTimer=null;
+function scheduleRender(){ clearTimeout(rTimer); rTimer=setTimeout(render, 60); }
+function subscribeRT(){
+  if(!sb) return;
+  if(chan){ try{ sb.removeChannel(chan); }catch(e){} }
+  chan = sb.channel('rv-'+UID);
+  for(const table of ['trips','trip_members','expenses','items'])
+    chan.on('postgres_changes', {event:'*', schema:'public', table}, p=>onRT(table,p));
+  chan.subscribe();
+}
+function onRT(table, p){
+  const ev=p.eventType, n=p.new||{}, o=p.old||{};
+  if(ev==='DELETE'){
+    const id=o.id; if(!id) return;
+    if(table==='trips'){ if(S.trips[id]) S.trips[id].missing=true; }
+    else for(const tr of Object.values(S.trips)){
+      if(table==='expenses') delete tr.g[id];
+      if(table==='items') delete tr.it[id];
+      if(table==='trip_members') tr.meta.members=(tr.meta.members||[]).filter(m=>m.id!==id);
+    }
+  } else {
+    const tid = table==='trips' ? n.id : n.trip_id;
+    const tr = S.trips[tid];
+    if(!tr){ if(table==='trips') fetchTrips(tid).then(scheduleRender).catch(()=>{}); return; }
+    if(table==='trips') Object.assign(tr.meta, rowToMeta(n, tr.meta.members));
+    if(table==='expenses') tr.g[n.id]=rowToG(n);
+    if(table==='items') tr.it[n.id]=rowToIt(n);
+    if(table==='trip_members'){
+      const m=rowToMember(n); const i=tr.meta.members.findIndex(x=>x.id===m.id);
+      if(i>=0) tr.meta.members[i]=m; else { tr.meta.members.push(m); tr.meta.members.sort(byCreated); }
+    }
+  }
+  saveLocal(); scheduleRender();
+}
+
+/* ---------- Supabase: gravação (otimista: atualiza a tela e depois o banco) ---------- */
+async function run(q, what){
+  try{
+    const {error} = await q;
+    if(!error) return true;
+    console.warn(what, error);
+    toast('Não consegui salvar '+what+'. '+(String(error.message||'').includes('fetch')?'Confira a internet.':'Tente de novo.'));
+  }catch(e){ console.warn(what, e); toast('Sem internet: não consegui salvar '+what+'.'); }
+  setTimeout(refresh, 900);   // volta ao que está no banco
+  return false;
+}
+function putMeta(tr){
+  saveLocal(); if(!isCloud(tr)) return Promise.resolve(true);
+  const m=tr.meta;
+  return run(sb.from('trips').update({name:m.name, emoji:m.emoji||'🧳', ini:m.ini||null, fim:m.fim||null, orc:m.orc||{}}).eq('id', m.id), 'a viagem');
+}
+function putG(tr,g){
+  g.t = now(); tr.g[g.id]=g; saveLocal();
+  if(!isCloud(tr)) return Promise.resolve(true);
+  return run(sb.from('expenses').upsert(gToRow(tr.meta.id,g)), 'o gasto');
+}
+function delG(tr,id){
+  delete tr.g[id]; saveLocal();
+  if(!isCloud(tr)) return Promise.resolve(true);
+  return run(sb.from('expenses').delete().eq('id',id), 'a exclusão');
+}
+function putIt(tr,it){
+  it.t = now(); tr.it[it.id]=it; saveLocal();
+  if(!isCloud(tr)) return Promise.resolve(true);
+  return run(sb.from('items').upsert(itToRow(tr.meta.id,it)), 'o item');
+}
+function delIt(tr,id){
+  delete tr.it[id]; saveLocal();
+  if(!isCloud(tr)) return Promise.resolve(true);
+  return run(sb.from('items').delete().eq('id',id), 'a exclusão');
+}
+const memberRow = (tid,m) => ({id:m.id, trip_id:tid, nome:m.nome, cota:m.cota??1, pix:m.pix||'', tel:m.tel||'', cor:(m.c||0)%10});
+function addMembers(tr, list){
+  tr.meta.members.push(...list); saveLocal();
+  if(!isCloud(tr)) return Promise.resolve(true);
+  return run(sb.from('trip_members').insert(list.map(m=>memberRow(tr.meta.id,m))), 'as pessoas');
+}
+
+/* ---------- início: conta (login sem cadastro) + dados ---------- */
+function setUser(u){
+  USER=u;
+  if(UID!==u.id){ UID=u.id; loadCache(UID); if(!S.trips[S.cur]) U.view='trips'; }
+  try{ localStorage.setItem('rachaviagem:lastuid', UID); }catch(e){}
+}
+async function refresh(){
+  if(!sb || !UID) return;
+  try{ await fetchTrips(); U.cloud='on'; }catch(e){ console.warn(e); U.cloud='off'; }
+  render();
+}
+async function boot(){
+  let last=null; try{ last=localStorage.getItem('rachaviagem:lastuid'); }catch(e){}
+  if(last){ UID=last; loadCache(last); if(S.cur && S.trips[S.cur]) U.view='trip'; }
+  render();
+  if(!(window.supabase && window.supabase.createClient)){ U.cloud='off'; U.booted=true; render(); checkHash(); return; }
+  sb = window.supabase.createClient(SB_URL, SB_KEY, { auth:{ persistSession:true, autoRefreshToken:true, detectSessionInUrl:true } });
+  sb.auth.onAuthStateChange((ev, session)=>{
+    if(U.booted && session && session.user && session.user.id!==UID){ setUser(session.user); subscribeRT(); refresh(); }
+    else if(session && session.user) USER=session.user;
+  });
+  try{
+    let { data:{ session } } = await sb.auth.getSession();
+    if(!session){
+      const r = await sb.auth.signInAnonymously();
+      if(r.error) throw r.error;
+      session = r.data.session;
+    }
+    setUser(session.user);
+    await fetchTrips();
+    U.cloud='on';
+    subscribeRT();
+  }catch(e){ console.warn('boot', e); U.cloud='off'; }
+  U.booted=true;
+  render();
+  checkHash();
+}
+document.addEventListener('visibilitychange', ()=>{ if(!document.hidden && U.booted) refresh(); });
+window.addEventListener('online', ()=>{ if(U.booted) refresh(); });
+
+/* ---------- convite por link (#v-CODIGO) ---------- */
+const inviteLink = code => APPURL + '#v-' + code;
+function hashCode(){ const m=/^#v-([A-Za-z0-9]{8})$/.exec(location.hash||''); return m ? m[1].toUpperCase() : null; }
+function clearHash(){ try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){ try{ location.hash=''; }catch(_){} } }
+async function checkHash(){
+  const code = hashCode(); if(!code) return;
+  if(!U.booted) return;                          // boot chama de novo ao terminar
+  if(U.cloud!=='on'){ openSheet('linkOff',{code}); return; }
+  clearHash();
+  const r = await joinTrip(code);
+  if(r==='notfound') openSheet('linkOff',{code, notfound:true});
+  else if(r==='err') toast('Não consegui abrir o convite agora. Tente de novo.');
+}
+window.addEventListener('hashchange', checkHash);
+// entra numa viagem pelo código; devolve 'ok' | 'notfound' | 'err'
+async function joinTrip(code){
+  const have = Object.values(S.trips).find(t=>t.meta.code===code);
+  if(have){ gotoTrip(have.meta.id); return 'ok'; }
+  try{
+    const { data:tid, error } = await sb.rpc('join_trip', { p_code: code });
+    if(error) return 'err';
+    if(!tid) return 'notfound';
+    await fetchTrips(tid);
+    const tr=S.trips[tid]; if(!tr) return 'err';
+    closeSheet(); gotoTrip(tid);
+    toast('Você entrou em '+tr.meta.name+' 🎉');
+    if(meId(tr)==null){ U.f={novo:''}; openSheet('pickMe'); }
+    return 'ok';
+  }catch(e){ return 'err'; }
+}
+
+/* ---------- dados de exemplo ---------- */
+function demoTrip(){
+  const id='L-demo'+rid(4);
+  const M=[['Você',1],['Ana',1],['Bruno',1],['Carla',1],['Diego',1],['Léo (criança)',0.5]];
+  const members=M.map(([nome,cota],i)=>({id:'m'+i,nome,cota,pix:i===1?'ana@email.com':'',c:i}));
+  const d0=new Date(); d0.setDate(d0.getDate()-2);
+  const ds=k=>{const d=new Date(d0); d.setDate(d.getDate()+k); return d.toISOString().slice(0,10);};
+  const tr={ meta:{id,name:'Praia em Ubatuba',emoji:'🏖️',ini:ds(0),fim:ds(3),members,orc:{mercado:80000,bebidas:40000,combustivel:50000},local:true,demo:true,code:'',criado:now()}, g:{}, it:{} };
+  const all=members.map(m=>m.id), adult=all.slice(0,5);
+  const G=[
+    {desc:'Gasolina ida',cat:'combustivel',valor:32000,pagou:'m2',data:ds(0),modo:'igual',part:adult},
+    {desc:'Pedágios',cat:'transporte',valor:8640,pagou:'m2',data:ds(0),modo:'igual',part:adult},
+    {desc:'Atacadão – compra grande',cat:'mercado',valor:61250,pagou:'m1',data:ds(0),modo:'itens',part:all,cotas:true,
+      itens:[{id:'i1',desc:'Cerveja e vinho',valor:18900,part:['m0','m1','m2','m4']},{id:'i2',desc:'Carnes do churrasco',valor:21500,part:['m0','m1','m2','m3','m5']}]},
+    {desc:'Aluguel da casa (sinal)',cat:'hospedagem',valor:120000,pagou:'m0',data:ds(-10),modo:'cota',part:all},
+    {desc:'Gelo e carvão',cat:'mercado',valor:7800,pagou:'m3',data:ds(1),modo:'depois',part:[]},
+    {desc:'Almoço no quiosque',cat:'restaurante',valor:23400,pagou:'m4',data:ds(1),modo:'manual',part:[],man:{m0:5200,m1:4800,m2:6100,m3:3900,m4:3400}},
+    {desc:'Passeio de barco',cat:'passeios',valor:30000,pagou:'m0',data:ds(1),modo:'igual',part:['m0','m1','m3','m5']},
+  ];
+  G.forEach((g,i)=>{ const id='g'+i; tr.g[id]=Object.assign({id,tipo:'g',t:now()-i},g); });
+  const I=[['Carvão','mercado','2 sacos','m2',true],['Cerveja','bebidas','3 caixas','m1',true],['Protetor solar','outros','1','m3',false],['Pão de alho','mercado','2 pct','m0',false],['Refrigerante','bebidas','6 L','m4',false],['Gelo','mercado','4 sacos','m3',true],['Repelente','outros','','',false]];
+  I.forEach(([nome,cat,qtd,resp,ok],i)=>{ const iid='it'+i; tr.it[iid]={id:iid,nome,cat,qtd,resp,status:ok?'ok':'pend',ord:i,t:now()}; });
+  return tr;
+}
+
+/* ---------- render ---------- */
+function render(){
+  const app=$('#app');
+  const tr=curT();
+  let top='', body='';
+  const cl = U.cloud==='on' ? `<button class="cloud" data-a="cloudInfo">☁️ Online</button>`
+    : U.cloud==='loading' ? `<button class="cloud" data-a="cloudInfo"><span class="spin" style="width:10px;height:10px;vertical-align:-1px"></span></button>`
+    : `<button class="cloud off" data-a="cloudInfo">⚠️ Offline</button>`;
+  const sug = `<button class="ib" data-a="sug" title="Sugestões" aria-label="Enviar sugestão">💬</button>`;
+
+  if(!S.my.length && !S.seen && U.cloud==='loading'){
+    app.innerHTML = `<div class="empty" style="padding-top:40vh"><span class="spin"></span><div class="small" style="margin-top:10px">Carregando suas viagens…</div></div>`;
+    $('#tabs').innerHTML=''; $('#fab').innerHTML=''; return;
+  }
+  if(!S.my.length && !S.seen){
+    app.innerHTML = welcomeHTML(); $('#tabs').innerHTML=''; $('#fab').innerHTML=''; return;
+  }
+  if(U.view==='trip' && tr){
+    top = `<div class="top"><button class="ib" data-a="goTrips" aria-label="Voltar">‹</button><h1>${h(tr.meta.emoji||'🧳')} ${h(tr.meta.name)}</h1>${cl}${sug}<button class="ib" data-a="tripCfg" aria-label="Ajustes da viagem">⚙️</button></div>`;
+    body = tr.missing ? `<div class="wrap"><div class="empty"><div class="e">🫥</div><b>Viagem não encontrada</b>Ela pode ter sido excluída por quem criou.<br><br><button class="btn sec" data-a="leaveTrip">Remover da minha lista</button></div></div>`
+      : tripBody(tr);
+    $('#tabs').innerHTML = tabsHTML();
+    const fabA = U.tab==='lista' ? 'addItem' : U.tab==='acerto' ? '' : 'addG';
+    $('#fab').innerHTML = fabA && !tr.missing && canEdit(tr) ? `<button class="fab" data-a="${fabA}" aria-label="Adicionar">+</button>` : '';
+  } else {
+    U.view='trips';
+    top = `<div class="top"><h1>🧳 Racha Viagem</h1>${cl}${sug}<button class="ib" data-a="appCfg" aria-label="Ajustes">⚙️</button></div>`;
+    body = tripsHTML();
+    $('#tabs').innerHTML=''; $('#fab').innerHTML='';
+  }
+  app.innerHTML = top + body;
+}
+function canEdit(tr){ return !isCloud(tr) || U.cloud==='on'; }
+
+function offBanner(){ return `<button class="banner tcard" data-a="retry">📡 <span class="grow">Sem conexão. Mostrando os últimos dados salvos neste aparelho — só visualização.</span><b>Tentar de novo</b></button>`; }
+function welcomeHTML(){
+  return `<div class="welcome">
+    <div class="logo">🧳</div>
+    <h1>Racha Viagem</h1>
+    <p>Organize o que levar e divida os gastos da viagem com a galera — sem planilha e sem briga.</p>
+    <div class="feat">
+      <div><b>📝</b>Lista de provisões e quem compra o quê</div>
+      <div><b>🧾</b>Gastos por categoria, com divisão por item</div>
+      <div><b>📊</b>Resumo visual do que já foi gasto</div>
+      <div><b>💸</b>Acerto final com o mínimo de Pix</div>
+    </div>
+    <button class="btn full" data-a="newTrip">Criar minha primeira viagem</button>
+    <button class="btn sec full" data-a="join">Tenho um código de convite</button>
+    ${U.cloud==='off'?offBanner():''}
+    <button class="btn sec full" data-a="demo">Explorar com dados de exemplo</button>
+    <div class="ver">v${APPV}</div>
+  </div>`;
+}
+
+function tripsHTML(){
+  const ids = S.my.filter(id=>S.trips[id]);
+  let html = `<div class="wrap">`;
+  if(U.cloud==='off') html += offBanner();
+  if(!ids.length){
+    html += `<div class="empty"><div class="e">🗺️</div><b>Nenhuma viagem ainda</b>Crie uma viagem e convide o grupo com um código.</div>`;
+  }
+  for(const id of ids){
+    const tr=S.trips[id]; const c=calc(tr); const n=(tr.meta.members||[]).length;
+    const its=Object.values(tr.it||{}); const ok=its.filter(i=>i.status==='ok').length;
+    const me=meId(tr); const b = me!=null ? (c.bal[me]||0) : null;
+    html += `<button class="card tcard" data-a="openTrip" data-id="${h(id)}">
+      <div class="row"><div class="ci" style="background:var(--card2);font-size:24px">${h(tr.meta.emoji||'🧳')}</div>
+        <div class="grow"><div style="font-weight:700;font-size:16px">${h(tr.meta.name)} ${tr.meta.demo?'<span class="badge">exemplo</span>':''}</div>
+        <div class="small mut">${tr.meta.ini?fmtCurto(tr.meta.ini)+(tr.meta.fim?' → '+fmtCurto(tr.meta.fim):''):''}${tr.meta.ini?' · ':''}${n} pessoa${n===1?'':'s'}</div></div>
+        <div style="text-align:right"><div class="num" style="font-weight:800;font-size:17px">${R0(c.total)}</div>
+        ${b!=null&&b!==0?`<div class="tiny ${b>0?'pos':'neg'}">${b>0?'recebe':'deve'} ${R0(Math.abs(b))}</div>`:''}</div></div>
+      ${c.total>0?`<div style="margin-top:12px">${stackBar(c.byCat,c.total)}</div>`:''}
+      <div class="row" style="margin-top:10px"><div class="avs">${(tr.meta.members||[]).slice(0,7).map(m=>av(tr,m.id,'s')).join('')}</div>
+      <div class="grow"></div>${its.length?`<span class="tiny mut">📝 ${ok}/${its.length} itens</span>`:''}</div>
+    </button>`;
+  }
+  html += `<div class="row" style="gap:8px"><button class="btn grow" data-a="newTrip">+ Nova viagem</button><button class="btn sec grow" data-a="join">Entrar com código</button></div>`;
+  html += `<div class="ver">Racha Viagem v${APPV}</div></div>`;
+  return html;
+}
+
+function stackBar(byCat,total){
+  const parts = CATS.filter(c=>byCat[c.k]>0);
+  return `<div class="stack">${parts.map(c=>`<i style="width:${(byCat[c.k]/total*100).toFixed(2)}%;background:${c.c}" title="${h(c.n)}"></i>`).join('')}</div>`;
+}
+
+function tabsHTML(){
+  const t=[['resumo','📊','Resumo'],['gastos','🧾','Gastos'],['lista','📝','Lista'],['acerto','💸','Acerto']];
+  return `<nav class="tabs"><div class="in">${t.map(([k,i,n])=>`<button class="${U.tab===k?'on':''}" data-a="tab" data-t="${k}"><b>${i}</b>${n}</button>`).join('')}</div></nav>`;
+}
+
+function tripBody(tr){
+  let pre='';
+  if(tr.meta.demo) pre += `<div class="banner">🧪 <span class="grow">Viagem de exemplo, só neste aparelho.</span><button class="lnk" data-a="delTrip">Apagar</button></div>`;
+  if(isCloud(tr) && !canEdit(tr)) pre += offBanner();
+  if(meId(tr)==null && (tr.meta.members||[]).length && !tr.loading) pre += `<div class="banner">👋 <span class="grow">Quem é você nesta viagem?</span><button class="lnk" data-a="pickMe">Escolher</button></div>`;
+  const fn = {resumo:resumoHTML, gastos:gastosHTML, lista:listaHTML, acerto:acertoHTML}[U.tab] || resumoHTML;
+  return `<div class="wrap">${pre}${fn(tr)}</div>`;
+}
+
+/* ----- Resumo ----- */
+function resumoHTML(tr){
+  const c=calc(tr); const mm=tr.meta.members||[];
+  if(!mm.length) return `<div class="empty"><div class="e">👥</div><b>Adicione as pessoas da viagem</b>Depois é só lançar os gastos.<br><br><button class="btn" data-a="tripCfg">Adicionar pessoas</button></div>`;
+  const totW = mm.reduce((a,m)=>a+(m.cota??1),0) || 1;
+  const me = meId(tr);
+  let html = `<div class="card hero">
+    <div class="small mut">Total gasto</div>
+    <div class="big">${R(c.total)}</div>
+    <div class="row small" style="margin-top:4px;color:var(--tx2)"><span>≈ ${R0(c.total/mm.length)} por pessoa</span><span class="grow"></span><button class="row" style="gap:6px" data-a="people" aria-label="Pessoas e convite"><span class="avs">${mm.slice(0,5).map(m=>av(tr,m.id,'s')).join('')}</span><span class="chip" style="padding:4px 9px">👥 +</span></button></div>
+    ${c.total>0?`<div style="margin-top:12px">${stackBar(c.byCat,c.total)}</div>`:''}
+  </div>`;
+  if(me!=null && c.total>0){
+    const b=c.bal[me]||0;
+    html += `<button class="card tcard" data-a="tab" data-t="acerto"><div class="row">${av(tr,me,'l')}<div class="grow">
+      <div class="small mut">Sua situação</div>
+      <div style="font-size:20px;font-weight:800" class="${b>0?'pos':b<0?'neg':''}">${b>0?'Você recebe '+R(b):b<0?'Você deve '+R(-b):'Você está quite ✅'}</div>
+      <div class="tiny mut">Pagou ${R(c.paid[me]||0)} · Sua parte ${R(c.owed[me]||0)}</div></div><span class="arrow">›</span></div></button>`;
+  }
+  if(c.pendN) html += `<button class="banner tcard" data-a="pendList">⏳ <span class="grow"><b>${c.pendN} gasto${c.pendN>1?'s':''} a dividir</b> (${R(c.pend)}) — ainda não entra${c.pendN>1?'m':''} no acerto.</span><span>›</span></button>`;
+  // categorias
+  const cats = CATS.filter(k=>c.byCat[k.k]>0 || tr.meta.orc[k.k]>0);
+  if(!cats.length){
+    html += `<div class="card"><div class="empty"><div class="e">🧾</div><b>Nenhum gasto ainda</b>Toque no + para lançar o primeiro (mercado, gasolina, hospedagem…).</div></div>`;
+  } else {
+    const max = Math.max(...cats.map(k=>Math.max(c.byCat[k.k]||0, tr.meta.orc[k.k]||0)));
+    html += `<div class="card"><h3>Por categoria<span class="sp"></span><button class="lnk" data-a="orc" style="text-transform:none;letter-spacing:0">Orçamento</button></h3>`;
+    for(const k of cats.sort((a,b)=>(c.byCat[b.k]||0)-(c.byCat[a.k]||0))){
+      const v=c.byCat[k.k]||0, o=tr.meta.orc[k.k]||0;
+      html += `<button class="cb" data-a="filterCat" data-k="${k.k}">
+        <div class="l"><span>${k.e}</span><span>${h(k.n)}</span><span class="v num">${R0(v)}</span></div>
+        <div class="track"><i style="width:${(v/max*100).toFixed(1)}%;background:${k.c}"></i>${o?`<span class="bud" style="left:calc(${(o/max*100).toFixed(1)}% - 1px)"></span>`:''}</div>
+        ${o?`<div class="tiny ${v>o?'over':'mut'}" style="margin-top:4px">${v>o?'⚠️ Passou '+R0(v-o)+' do orçamento de '+R0(o):'Orçamento '+R0(o)+' · '+Math.round(v/o*100)+'% usado'}</div>`:''}
+      </button>`;
+    }
+    html += `</div>`;
+  }
+  // saldos
+  if(c.total>0){
+    html += `<div class="card"><h3>Quem recebe / quem deve<span class="sp"></span><button class="lnk" data-a="tab" data-t="acerto" style="text-transform:none;letter-spacing:0">Acerto ›</button></h3>${divergeHTML(tr,c)}</div>`;
+  }
+  // lista
+  const its=Object.values(tr.it||{});
+  if(its.length){
+    const ok=its.filter(i=>i.status==='ok').length;
+    html += `<button class="card tcard" data-a="tab" data-t="lista"><h3>Lista de provisões<span class="sp"></span><span class="num" style="color:var(--tx)">${ok}/${its.length}</span></h3><div class="prog"><i style="width:${ok/its.length*100}%"></i></div>
+      <div class="small mut" style="margin-top:8px">${its.length-ok ? (its.length-ok)+' item(ns) faltando comprar' : 'Tudo comprado ✅'}</div></button>`;
+  }
+  return html;
+}
+function divergeHTML(tr,c){
+  const mm=tr.meta.members||[];
+  const maxA=Math.max(1,...mm.map(m=>Math.abs(c.bal[m.id]||0)));
+  return mm.map(m=>{
+    const b=c.bal[m.id]||0; const r=(Math.abs(b)/maxA).toFixed(3);
+    const w = `calc((50% - 66px) * ${r})`;   // deixa 66px para o rótulo dentro do trilho
+    const lab = b===0?'quite':(b>0?'+':'−')+R0(Math.abs(b));
+    const pos = b>0 ? `left:calc(50% + (50% - 66px) * ${r} + 5px)` : b<0 ? `right:calc(50% + (50% - 66px) * ${r} + 5px)` : `left:calc(50% + 6px)`;
+    return `<div class="dv"><div class="nm">${av(tr,m.id,'s')}<span>${h(m.nome)}</span></div>
+      <div class="dvt"><span class="mid"></span>${b?`<i class="${b>0?'p':'n'}" style="width:max(3px, ${w})"></i>`:''}<span class="${b>0?'pos':b<0?'neg':'mut'}" style="${pos}">${lab}</span></div></div>`;
+  }).join('') + `<div class="row tiny mut" style="justify-content:space-between;margin-top:4px"><span class="neg">◀ deve</span><span class="pos">recebe ▶</span></div>`;
+}
+
+/* ----- Gastos ----- */
+function gastosHTML(tr){
+  const mm=tr.meta.members||[];
+  let gs = Object.values(tr.g||{});
+  const c = calc(tr);
+  let html = `<div class="chips" style="margin-bottom:8px"><button class="chip ${!U.fcat?'on':''}" data-a="filterCat" data-k="">Todas</button>${CATS.filter(k=>c.byCat[k.k]).map(k=>`<button class="chip ${U.fcat===k.k?'on':''}" data-a="filterCat" data-k="${k.k}">${k.e} ${h(k.n)}</button>`).join('')}<button class="chip ${U.fcat==='_pend'?'on':''}" data-a="filterCat" data-k="_pend">⏳ A dividir</button></div>`;
+  if(mm.length>1) html += `<div class="chips" style="margin-bottom:6px"><button class="chip ${!U.fpess?'on':''}" data-a="filterP" data-id="">Todos</button>${mm.map(m=>`<button class="chip ${U.fpess===m.id?'on':''}" data-a="filterP" data-id="${m.id}">${av(tr,m.id,'s').replace('class="av s"','class="av s" style="width:20px;height:20px;font-size:9px;border:0;background:'+AVC[(m.c||0)%AVC.length]+'"')} ${h(m.nome)}</button>`).join('')}</div>`;
+  if(U.fcat==='_pend') gs = gs.filter(g=>g.tipo!=='p' && g.modo==='depois');
+  else if(U.fcat) gs = gs.filter(g=>g.cat===U.fcat);
+  if(U.fpess){ gs = gs.filter(g=> g.tipo==='p' ? (g.de===U.fpess||g.para===U.fpess) : (g.pagou===U.fpess || (sharesOf(g,tr)||{})[U.fpess])); }
+  if(!gs.length) return html + `<div class="empty"><div class="e">🧾</div><b>${Object.keys(tr.g||{}).length?'Nada com esse filtro':'Nenhum gasto lançado'}</b>${Object.keys(tr.g||{}).length?'Troque o filtro acima.':'Toque no + para lançar mercado, gasolina, bebidas…'}</div>`;
+  const sum = gs.filter(g=>g.tipo!=='p').reduce((a,g)=>a+g.valor,0);
+  if(U.fcat||U.fpess) html += `<div class="small mut" style="margin:8px 2px">Total filtrado: <b style="color:var(--tx)">${R(sum)}</b>${U.fpess?' · parte de '+h(mName(tr,U.fpess))+': <b style="color:var(--tx)">'+R(gs.filter(g=>g.tipo!=='p').reduce((a,g)=>a+((sharesOf(g,tr)||{})[U.fpess]||0),0))+'</b>':''}</div>`;
+  gs.sort((a,b)=> (b.data||'').localeCompare(a.data||'') || (b.t||0)-(a.t||0));
+  let last=null; html += `<div>`;
+  for(const g of gs){
+    if(g.data!==last){ if(last!==null) html+=`</div>`; html += `<div class="day">${h(fmtDia(g.data)||'Sem data')}</div><div class="card" style="padding:4px 14px">`; last=g.data; }
+    if(g.tipo==='p'){
+      html += `<button class="li" data-a="editPag" data-id="${g.id}"><div class="ci" style="background:#15283f">💸</div><div class="grow"><div class="t">${h(mName(tr,g.de))} pagou ${h(mName(tr,g.para))}</div><div class="s">Acerto de contas</div></div><div class="v num pos">${R(g.valor)}</div></button>`;
+      continue;
+    }
+    const k=CAT[g.cat]||CAT.outros; const sh=sharesOf(g,tr); const n=sh?Object.keys(sh).length:0;
+    const modoTxt = g.modo==='depois' ? '<span class="badge">a dividir</span>' : g.modo==='itens' ? `por item · ${n} pessoas` : g.modo==='manual' ? `manual · ${n} pessoas` : g.modo==='cota' ? `por cota · ${n} pessoas` : `÷ ${n} pessoas`;
+    const mine = U.fpess && sh ? `<div class="tiny mut">parte: ${R(sh[U.fpess]||0)}</div>` : '';
+    html += `<button class="li" data-a="editG" data-id="${g.id}"><div class="ci" style="background:${k.c}26">${k.e}</div>
+      <div class="grow"><div class="t">${h(g.desc||k.n)}</div><div class="s">${av(tr,g.pagou,'s').replace('class="av s"','class="av s" style="width:16px;height:16px;font-size:8px;border:0;display:inline-grid;vertical-align:-3px;background:'+AVC[((mem(tr,g.pagou)||{}).c||0)%AVC.length]+'"')} ${h(mName(tr,g.pagou))} pagou · ${modoTxt}</div></div>
+      <div class="v num">${R(g.valor)}${mine}</div></button>`;
+  }
+  html += `</div></div>`;
+  return html;
+}
+
+/* ----- Lista ----- */
+function listaHTML(tr){
+  const its=Object.values(tr.it||{});
+  const me=meId(tr);
+  if(!its.length) return `<div class="empty"><div class="e">📝</div><b>Lista de provisões vazia</b>Anote o que precisa levar ou comprar (carvão, gelo, bebidas…) e quem fica responsável.<br><br><button class="btn" data-a="addItem">+ Adicionar item</button></div>`;
+  const ok=its.filter(i=>i.status==='ok').length;
+  let html = `<div class="card"><div class="row"><div class="grow"><div style="font-weight:800;font-size:22px" class="num">${ok}/${its.length}</div><div class="small mut">itens comprados</div></div><div style="font-size:30px">${ok===its.length?'✅':'🛒'}</div></div><div class="prog" style="margin-top:10px"><i style="width:${ok/its.length*100}%"></i></div></div>`;
+  html += `<div class="chips" style="margin-bottom:8px">${[['todos','Todos'],['pend','Faltando'],['meus','Meus itens'],['ok','Comprados']].map(([k,n])=>`<button class="chip ${U.lfil===k?'on':''}" data-a="lfil" data-k="${k}">${n}</button>`).join('')}</div>`;
+  let list = its;
+  if(U.lfil==='pend') list=its.filter(i=>i.status!=='ok');
+  if(U.lfil==='ok') list=its.filter(i=>i.status==='ok');
+  if(U.lfil==='meus') list=its.filter(i=>me!=null && i.resp===me);
+  if(U.lfil==='meus' && me==null) return html + `<div class="empty"><b>Diga quem você é</b>Assim o app mostra os itens sob sua responsabilidade.<br><br><button class="btn sec" data-a="pickMe">Escolher</button></div>`;
+  if(!list.length) return html + `<div class="empty"><div class="e">👌</div><b>Nada aqui</b></div>`;
+  // agrupar por categoria
+  for(const k of CATS){
+    const g = list.filter(i=>(i.cat||'outros')===k.k).sort((a,b)=>(a.status==='ok')-(b.status==='ok') || (a.ord||0)-(b.ord||0));
+    if(!g.length) continue;
+    html += `<div class="day">${k.e} ${h(k.n)}</div><div class="card" style="padding:4px 14px">`;
+    for(const i of g){
+      const done=i.status==='ok';
+      html += `<div class="li ${done?'done':''}"><button class="chk ${done?'on':''}" data-a="${done?'unbuy':'buy'}" data-id="${i.id}" aria-label="${done?'Desmarcar':'Marcar comprado'}">${done?'✓':''}</button>
+        <button class="grow" style="text-align:left;min-width:0" data-a="editItem" data-id="${i.id}"><div class="t">${h(i.nome)} ${i.qtd?`<span class="mut small" style="font-weight:400">· ${h(i.qtd)}</span>`:''}</div>
+        <div class="s">${i.resp?h(mName(tr,i.resp))+(done?' comprou':' vai comprar'):'<span style="color:var(--warn)">sem responsável</span>'}${i.gid&&tr.g[i.gid]?' · 🧾 '+R(tr.g[i.gid].valor):''}</div></button>
+        ${i.resp?av(tr,i.resp,'s'):''}</div>`;
+    }
+    html += `</div>`;
+  }
+  return html;
+}
+
+/* ----- Acerto ----- */
+function acertoHTML(tr){
+  const c=calc(tr); const mm=tr.meta.members||[];
+  if(!c.total) return `<div class="empty"><div class="e">💸</div><b>Nada para acertar ainda</b>Quando houver gastos, aqui aparece quem paga quem — com o menor número de transferências.</div>`;
+  const tf=settle(c.bal); const cons=consumo(tr);
+  let html='';
+  if(c.pendN) html += `<button class="banner tcard" data-a="pendList">⏳ <span class="grow">${c.pendN} gasto(s) de ${R(c.pend)} ainda <b>sem divisão</b> — defina para entrarem no acerto.</span><span>›</span></button>`;
+  html += `<div class="card"><h3>Transferências para zerar<span class="sp"></span><span class="num" style="color:var(--tx)">${tf.length}</span></h3>`;
+  if(!tf.length) html += `<div class="empty" style="padding:14px"><div class="e">✅</div><b>Tudo acertado!</b>Ninguém deve ninguém.</div>`;
+  for(const t of tf){
+    const pm = mem(tr,t.para)||{};
+    html += `<div class="tr">${av(tr,t.de)}<div class="grow" style="min-width:0"><div style="font-weight:600;font-size:14px">${h(mName(tr,t.de))} <span class="arrow">→</span> ${h(mName(tr,t.para))}</div>
+      <div class="row" style="gap:6px;margin-top:6px">${pm.pix?`<button class="btn sec sm" data-a="copy" data-v="${h(pm.pix)}">Copiar Pix</button>`:''}${canEdit(tr)?`<button class="btn sm" data-a="markPaid" data-de="${t.de}" data-para="${t.para}" data-v="${t.valor}">Marcar pago</button>`:''}</div></div>
+      <div style="text-align:right"><div class="num" style="font-weight:800;font-size:17px">${R(t.valor)}</div></div>${av(tr,t.para)}</div>`;
+  }
+  html += `</div>`;
+  html += `<div class="card"><h3>Saldo de cada um</h3>${divergeHTML(tr,c)}</div>`;
+  html += `<div class="card"><h3>Pagou × consumiu</h3>`;
+  const maxV=Math.max(1,...mm.map(m=>Math.max(c.paid[m.id]||0, cons[m.id]||0)));
+  // pagou só em gastos (sem acertos)
+  const paidG={}; Object.values(tr.g||{}).forEach(g=>{ if(g.tipo!=='p' && g.modo!=='depois') paidG[g.pagou]=(paidG[g.pagou]||0)+g.valor; });
+  const maxP=Math.max(1,...mm.map(m=>Math.max(paidG[m.id]||0, cons[m.id]||0)));
+  html += mm.map(m=>`<div style="padding:7px 0;border-top:1px solid var(--line)"><div class="row small" style="margin-bottom:5px">${av(tr,m.id,'s')}<b>${h(m.nome)}</b>${(m.cota??1)!==1?`<span class="badge b">cota ${String(m.cota).replace('.',',')}</span>`:''}</div>
+    <div class="pr" style="grid-template-columns:62px 1fr 78px"><span class="mut">pagou</span><div class="bar" style="width:${(paidG[m.id]||0)/maxP*100}%;background:var(--pos);min-width:2px"></div><span class="num" style="text-align:right">${R(paidG[m.id]||0)}</span></div>
+    <div class="pr" style="grid-template-columns:62px 1fr 78px"><span class="mut">consumiu</span><div class="bar" style="width:${(cons[m.id]||0)/maxP*100}%;background:#d95926;min-width:2px"></div><span class="num" style="text-align:right">${R(cons[m.id]||0)}</span></div></div>`).join('');
+  html += `<div class="legend"><span><i class="sw" style="background:var(--pos)"></i>Pagou (gastos)</span><span><i class="sw" style="background:#d95926"></i>Consumiu (sua parte)</span></div></div>`;
+  html += `<div class="card"><h3>📲 Extrato de cada pessoa</h3><div class="tiny mut" style="margin:-4px 0 8px">Mensagem pronta para quem não usa o app (ex.: avós): parte, o que pagou e para quem transferir.</div>`;
+  for(const m of mm){
+    const b=c.bal[m.id]||0; const txt=extratoTexto(tr,c,tf,cons,paidG,m.id);
+    const tel=waNum(m.tel);
+    html += `<div class="tr">${av(tr,m.id)}<div class="grow" style="min-width:0"><div style="font-weight:600;font-size:14px">${h(m.nome)}</div><div class="tiny ${b>0?'pos':b<0?'neg':'mut'}">${b>0?'recebe '+R(b):b<0?'deve '+R(-b):'quite ✅'}</div></div>
+      <a class="btn sm" style="text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/${tel}?text=${encodeURIComponent(txt)}" aria-label="Enviar extrato de ${h(m.nome)} no WhatsApp">WhatsApp</a><button class="btn sec sm" data-a="copy" data-v="${h(txt)}" aria-label="Copiar extrato">Copiar</button></div>`;
+  }
+  html += `<div class="tiny mut" style="margin-top:6px">Com o WhatsApp da pessoa cadastrado em ⚙️, a conversa já abre direto com ela.</div></div>`;
+  const pags = Object.values(tr.g||{}).filter(g=>g.tipo==='p').sort((a,b)=>(b.t||0)-(a.t||0));
+  if(pags.length){
+    html += `<div class="card"><h3>Pagamentos registrados</h3>${pags.map(g=>`<button class="li" data-a="editPag" data-id="${g.id}"><div class="ci" style="background:#15283f">💸</div><div class="grow"><div class="t">${h(mName(tr,g.de))} → ${h(mName(tr,g.para))}</div><div class="s">${h(fmtDia(g.data))}</div></div><div class="v num pos">${R(g.valor)}</div></button>`).join('')}</div>`;
+  }
+  const txt = resumoTexto(tr,c,tf);
+  html += `<div class="row" style="gap:8px"><a class="btn grow" style="text-decoration:none" href="https://wa.me/?text=${encodeURIComponent(txt)}" target="_blank" rel="noopener">Resumo no WhatsApp</a><button class="btn sec grow" data-a="copy" data-v="${h(txt)}">Copiar resumo</button></div>`;
+  return html;
+}
+function waNum(t){ let d=String(t||'').replace(/\D/g,''); if(!d) return ''; if(d.length<=11) d='55'+d.replace(/^0+/,''); return d; }
+function extratoTexto(tr,c,tf,cons,paidG,id){
+  const m=mem(tr,id)||{nome:''}; const nome=m.nome.split(' ')[0];
+  let s=`Olá, ${nome}! 👋\nResumo da viagem ${tr.meta.emoji||'🧳'} *${tr.meta.name}*:\n\n`;
+  s+=`• Total da viagem: ${R(c.total)}\n• Sua parte: *${R(cons[id]||0)}*\n• Você pagou: ${R(paidG[id]||0)}\n`;
+  const det=[];
+  for(const g of Object.values(tr.g||{})){ if(g.tipo==='p') continue; const sh=sharesOf(g,tr); if(sh&&sh[id]) det.push([sh[id],`${(CAT[g.cat]||CAT.outros).e} ${g.desc||(CAT[g.cat]||CAT.outros).n}: ${R(sh[id])}`]); }
+  if(det.length){ det.sort((a,b)=>b[0]-a[0]); s+=`\n*Sua parte em cada gasto:*\n`+det.slice(0,12).map(x=>'  '+x[1]).join('\n')+(det.length>12?`\n  … e mais ${det.length-12}`:'')+'\n'; }
+  const pagar=tf.filter(t=>t.de===id), receber=tf.filter(t=>t.para===id);
+  s+=`\n*Para acertar:*\n`;
+  if(!pagar.length && !receber.length) s+='Você está quite ✅\n';
+  for(const t of pagar){ const p=mem(tr,t.para)||{}; s+=`➡️ Transferir *${R(t.valor)}* para ${p.nome}${p.pix?' — Pix: '+p.pix:''}\n`; }
+  for(const t of receber){ s+=`⬅️ Receber *${R(t.valor)}* de ${mName(tr,t.de)}\n`; }
+  if(c.pendN) s+=`\n⏳ Ainda há ${c.pendN} gasto(s) sem divisão (${R(c.pend)}); os valores podem mudar.\n`;
+  return s;
+}
+function resumoTexto(tr,c,tf){
+  let s = `${tr.meta.emoji||'🧳'} *${tr.meta.name}*\nTotal: ${R(c.total)}\n\n`;
+  for(const k of CATS) if(c.byCat[k.k]) s += `${k.e} ${k.n}: ${R(c.byCat[k.k])}\n`;
+  s += `\n*Acerto:*\n`;
+  if(!tf.length) s += 'Tudo certo, ninguém deve nada ✅\n';
+  for(const t of tf){ const p=mem(tr,t.para)||{}; s += `• ${mName(tr,t.de)} → ${mName(tr,t.para)}: ${R(t.valor)}${p.pix?' (Pix: '+p.pix+')':''}\n`; }
+  if(c.pendN) s += `\n⏳ ${c.pendN} gasto(s) ainda sem divisão: ${R(c.pend)}\n`;
+  return s;
+}
+
+/* ---------- sheets ---------- */
+function openSheet(type, data){ U.sheet = Object.assign({type}, data||{}); renderSheet(); }
+function closeSheet(){ U.sheet=null; U.f=null; $('#sheet').innerHTML=''; }
+function renderSheet(){
+  if(!U.sheet){ $('#sheet').innerHTML=''; return; }
+  const fn = SHEETS[U.sheet.type];
+  const sc = $('.sh') ? $('.sh').scrollTop : 0;
+  $('#sheet').innerHTML = `<div class="bk" data-a="bk"><div class="sh" role="dialog"><div class="grip"></div>${fn()}</div></div>`;
+  const s=$('.sh'); if(s) s.scrollTop=sc;
+}
+// campo de etiquetas: digita um nome, Enter adiciona e o campo fica pronto para o próximo
+function tagBox(names, ph){
+  return `<div class="tagbox">${names.map((n,i)=>`<span class="tag"><span class="av" style="background:${AVC[i%AVC.length]}">${h(initials(n))}</span>${h(n)}<button data-a="tagDel" data-i="${i}" aria-label="Remover ${h(n)}">✕</button></span>`).join('')}
+    <input data-f="tagIn" data-tag="1" enterkeyhint="enter" autocomplete="off" placeholder="${h(ph)}" value="${h(U.f.tagIn||'')}"></div>
+    <div class="row" style="margin-top:6px"><span class="tiny mut grow">Digite e aperte <b>Enter</b> para incluir outro nome.</span><button class="btn sec sm" data-a="tagAdd">+ Incluir</button></div>`;
+}
+const xBtn = `<button class="ib x" data-a="close" aria-label="Fechar">✕</button>`;
+function ppick(tr, sel, act, extra=''){
+  const link = act==='setMe';
+  return `<div class="pp">${(tr.meta.members||[]).map(m=>`<button class="${sel.includes(m.id)?'on':''}" data-a="${act}" data-id="${m.id}" ${extra}>${av(tr,m.id)}<span>${h(m.nome.split(' ')[0])}${link&&m.uid&&m.uid!==UID?' 🔗':''}</span></button>`).join('')}</div>`;
+}
+
+const SHEETS = {
+  gasto(){
+    const tr=curT(), f=U.f; const isNew=!tr.g[f.id];
+    let s = `<h2>${isNew?'Novo gasto':'Editar gasto'}${xBtn}</h2>
+      <input class="money" data-f="valorS" inputmode="decimal" placeholder="R$ 0,00" value="${h(f.valorS)}" aria-label="Valor">
+      <label class="fl">Descrição</label><input data-f="desc" placeholder="ex.: Compra no mercado" value="${h(f.desc)}">
+      <label class="fl">Categoria</label><div class="cats">${CATS.map(k=>`<button class="${f.cat===k.k?'on':''}" data-a="fCat" data-k="${k.k}"><b>${k.e}</b>${h(k.n.split('/')[0])}</button>`).join('')}</div>
+      <label class="fl">Quem pagou</label>${ppick(tr,[f.pagou],'fPagou')}
+      <label class="fl">Data</label><input type="date" data-f="data" value="${h(f.data)}">
+      <label class="fl">Como dividir</label><div class="seg">${MODOS.map(m=>`<button class="${f.modo===m.k?'on':''}" data-a="fModo" data-k="${m.k}">${m.n}</button>`).join('')}</div>`;
+    if(f.modo==='igual'||f.modo==='cota'){
+      s += `<div class="row" style="margin:12px 0 6px"><span class="fl" style="margin:0" >Quem divide</span><span class="grow"></span><button class="lnk" data-a="fAll">Todos</button><span class="mut">·</span><button class="lnk" data-a="fNone">Ninguém</button></div>${ppick(tr,f.part,'fPart')}`;
+      if(f.modo==='cota') s += `<div class="tiny mut" style="margin-top:6px">Cotas são definidas em ⚙️ Pessoas (ex.: casal = 2, criança = 0,5).</div>`;
+    }
+    if(f.modo==='itens'){
+      s += `<div class="tiny mut" style="margin:10px 0">Separe itens que só algumas pessoas dividem (ex.: bebida alcoólica). O restante é dividido entre quem você marcar no final.</div>`;
+      f.itens.forEach((it,i)=>{
+        s += `<div class="itm"><div class="row"><input data-f="itens.${i}.desc" placeholder="ex.: Cerveja" value="${h(it.desc)}" class="grow"><input data-f="itens.${i}.valorS" inputmode="decimal" placeholder="R$" value="${h(it.valorS)}" style="width:96px;flex:none;text-align:right"><button class="ib" data-a="fItDel" data-i="${i}" aria-label="Remover item">🗑️</button></div>
+          <div style="margin-top:8px">${ppick(tr,it.part,'fItPart','data-i="'+i+'"')}</div></div>`;
+      });
+      s += `<button class="btn sec full sm" data-a="fItAdd">+ Item separado</button>
+        <label class="fl">Restante <span id="restV" class="num" style="text-transform:none"></span> — dividir entre</label>${ppick(tr,f.part,'fPart')}
+        <label class="row small" style="margin-top:10px;gap:8px"><input type="checkbox" data-f="cotas" ${f.cotas?'checked':''} style="width:20px;height:20px;flex:none"> Considerar as cotas (casal, criança…)</label>`;
+    }
+    if(f.modo==='manual'){
+      s += `<div style="margin-top:10px">${(tr.meta.members||[]).map(m=>`<div class="row" style="margin-bottom:6px">${av(tr,m.id,'s')}<span class="grow small">${h(m.nome)}</span><input data-f="man.${m.id}" inputmode="decimal" placeholder="R$ 0,00" value="${h(f.manS[m.id]||'')}" style="width:120px;flex:none;text-align:right"></div>`).join('')}
+        <button class="lnk" data-a="fManRest">Dividir o que falta igualmente entre os vazios</button></div>`;
+    }
+    if(f.modo==='depois'){
+      s += `<div class="prev small">⏳ Fica marcado como <b>"a dividir"</b>. Conta no total da viagem, mas <b>não entra no acerto</b> até alguém definir a divisão. Ideal para "comprei para o grupo, depois a gente vê".</div>`;
+    }
+    s += `<div id="gprev"></div><div id="gerr"></div>
+      <button class="btn full" style="margin-top:14px" data-a="saveG">Salvar gasto</button>
+      ${!isNew?`<button class="btn dan full" style="margin-top:8px" data-a="delG">Excluir gasto</button>`:''}`;
+    return s;
+  },
+  pag(){
+    const tr=curT(), f=U.f; const isNew=!tr.g[f.id];
+    return `<h2>${isNew?'Registrar pagamento':'Pagamento'}${xBtn}</h2>
+      <input class="money" data-f="valorS" inputmode="decimal" placeholder="R$ 0,00" value="${h(f.valorS)}">
+      <label class="fl">Quem pagou</label>${ppick(tr,[f.de],'pDe')}
+      <label class="fl">Para quem</label>${ppick(tr,[f.para],'pPara')}
+      <label class="fl">Data</label><input type="date" data-f="data" value="${h(f.data)}">
+      <div id="gerr"></div>
+      <button class="btn full" style="margin-top:14px" data-a="savePag">Salvar</button>
+      ${!isNew?`<button class="btn dan full" style="margin-top:8px" data-a="delPag">Excluir pagamento</button>`:''}`;
+  },
+  item(){
+    const tr=curT(), f=U.f; const isNew=!tr.it[f.id];
+    return `<h2>${isNew?'Novo item':'Editar item'}${xBtn}</h2>
+      <label class="fl" style="margin-top:0">O que</label><input data-f="nome" placeholder="ex.: Carvão" value="${h(f.nome)}">
+      <label class="fl">Quantidade</label><input data-f="qtd" placeholder="ex.: 2 sacos" value="${h(f.qtd)}">
+      <label class="fl">Categoria</label><div class="cats">${CATS.map(k=>`<button class="${f.cat===k.k?'on':''}" data-a="fCat" data-k="${k.k}"><b>${k.e}</b>${h(k.n.split('/')[0])}</button>`).join('')}</div>
+      <label class="fl">Quem compra / leva</label>${ppick(tr,[f.resp],'iResp')}
+      <div id="gerr"></div>
+      <button class="btn full" style="margin-top:14px" data-a="saveItem">${isNew?'Adicionar':'Salvar'}</button>
+      ${isNew?`<button class="btn sec full" style="margin-top:8px" data-a="saveItemMore">Adicionar e criar outro</button>`:`<button class="btn dan full" style="margin-top:8px" data-a="delItem">Excluir item</button>`}`;
+  },
+  buy(){
+    const tr=curT(), f=U.f; const it=tr.it[f.iid];
+    return `<h2>✓ ${h(it.nome)}${xBtn}</h2>
+      <label class="fl" style="margin-top:0">Quem comprou</label>${ppick(tr,[f.pagou],'fPagou')}
+      <label class="fl">Quanto custou? (opcional)</label><input class="money" data-f="valorS" inputmode="decimal" placeholder="R$ 0,00" value="${h(f.valorS)}">
+      <div class="tiny mut" style="margin-top:6px">Com valor, o app já lança um gasto em ${CAT[it.cat||'outros'].e} ${h(CAT[it.cat||'outros'].n)}.</div>
+      <label class="fl">Como dividir esse valor</label>
+      <div class="seg"><button class="${f.modo==='igual'?'on':''}" data-a="fModo" data-k="igual">Igual entre todos</button><button class="${f.modo==='depois'?'on':''}" data-a="fModo" data-k="depois">Definir depois</button></div>
+      <div id="gerr"></div>
+      <button class="btn full" style="margin-top:14px" data-a="saveBuy">Marcar como comprado</button>`;
+  },
+  newTrip(){
+    const f=U.f;
+    return `<h2>Nova viagem${xBtn}</h2>
+      <label class="fl" style="margin-top:0">Nome</label><input data-f="name" placeholder="ex.: Réveillon em Paraty" value="${h(f.name)}">
+      <label class="fl">Ícone</label><div class="chips wr">${EMOJIS.map(e=>`<button class="chip ${f.emoji===e?'on':''}" style="font-size:20px;padding:6px 10px" data-a="fEmoji" data-k="${e}">${e}</button>`).join('')}</div>
+      <div class="row" style="gap:8px"><div class="grow"><label class="fl">Ida</label><input type="date" data-f="ini" value="${h(f.ini)}"></div><div class="grow"><label class="fl">Volta</label><input type="date" data-f="fim" value="${h(f.fim)}"></div></div>
+      <label class="fl">Seu nome</label><input data-f="eu" placeholder="ex.: Matheus" value="${h(f.eu)}">
+      <label class="fl">Convidados</label>${tagBox(f.tags, f.tags.length?'ex.: mais um nome':'ex.: Lucas')}
+      <div class="tiny mut" style="margin-top:8px">Depois de criar, você recebe um <b>link de convite</b> para mandar no grupo. Dá para incluir pessoas a qualquer momento em 👥 Pessoas.</div>
+      <div id="gerr"></div>
+      <button class="btn full" style="margin-top:14px" data-a="saveTrip">Criar viagem</button>
+      ${U.cloud!=='on'?`<div class="err" style="text-align:center">Sem internet agora — conecte para criar a viagem.</div>`:''}`;
+  },
+  join(){
+    return `<h2>Entrar numa viagem${xBtn}</h2>
+      <div class="small mut">Peça o código de 8 letras para quem criou a viagem (👥 Pessoas). Ou simplesmente toque no link de convite.</div>
+      <label class="fl">Código</label><input data-f="code" placeholder="ex.: K7P2QXM4" autocapitalize="characters" style="text-transform:uppercase;letter-spacing:.15em;font-weight:700;text-align:center;font-size:20px" value="${h(U.f.code)}">
+      <div id="gerr"></div>
+      <button class="btn full" style="margin-top:14px" data-a="doJoin">Entrar</button>
+      ${U.cloud!=='on'?`<div class="err">Precisa de internet para entrar.</div>`:''}`;
+  },
+  people(){
+    const tr=curT(); const mm=tr.meta.members||[];
+    let s=`<h2>👥 Pessoas${xBtn}</h2>`;
+    if(isCloud(tr)){
+      const link=inviteLink(tr.meta.code);
+      const msg=`Bora organizar a viagem "${tr.meta.name}" ${tr.meta.emoji||''} no Racha Viagem! Toque no link para entrar: ${link}`;
+      s+=`<div class="card" style="background:#14262a;border-color:#24423f"><h3>🔗 Convite por link</h3>
+        <div class="link">${h(link)}</div>
+        <div class="row" style="gap:8px;margin-top:10px"><a class="btn sm grow" style="text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(msg)}">WhatsApp</a>${navigator.share?`<button class="btn sec sm grow" data-a="share" data-v="${h(msg)}">Compartilhar…</button>`:''}<button class="btn sec sm grow" data-a="copy" data-v="${h(link)}">Copiar link</button></div>
+        <div class="tiny mut" style="margin-top:8px">Código da viagem: <b style="color:var(--tx);letter-spacing:.12em">${h(tr.meta.code)}</b> · O link abre direto <b>esta</b> viagem.</div>
+        <details style="margin-top:8px"><summary class="tiny" style="color:var(--ac)">Quem pode abrir o link?</summary><div class="tiny mut" style="margin-top:6px"><b>Qualquer pessoa com o link</b> entra direto, sem cadastro — por isso mande só para quem vai na viagem. Quem preferir nem abrir o app (ex.: avós) pode ficar só na lista abaixo: você lança por ela e manda o extrato pelo WhatsApp (aba Acerto).</div></details></div>`;
+    } else {
+      s+=`<div class="banner">🧪 <span class="grow">Viagem de exemplo: não dá para convidar. Crie uma viagem de verdade para mandar o link.</span></div>`;
+    }
+    s+=`<label class="fl">Na viagem (${mm.length})</label><div class="pp all">${mm.map(m=>`<button data-a="tripCfg">${av(tr,m.id)}<span>${h(m.nome.split(' ')[0])}</span></button>`).join('')}</div>`;
+    if(canEdit(tr)) s+=`<label class="fl">Incluir pessoas</label>${tagBox(U.f.tags,'ex.: Lucas')}
+      <div id="gerr"></div>
+      <button class="btn full" style="margin-top:12px" data-a="savePeople">${U.f.tags.length?'Adicionar '+U.f.tags.length+' pessoa'+(U.f.tags.length>1?'s':''):'Adicionar'}</button>
+      <button class="btn sec full" style="margin-top:8px" data-a="tripCfg">Editar cotas, Pix e WhatsApp</button>`;
+    return s;
+  },
+  linkOff(){
+    const sh=U.sheet;
+    return `<h2>${sh.notfound?'🫥 Convite inválido':'🔗 Convite recebido'}${xBtn}</h2>${sh.notfound
+      ?`<p class="small">Não achei a viagem <b>${h(sh.code)}</b>. Ela pode ter sido excluída — peça um link novo para quem criou.</p>`
+      :`<p class="small">Você recebeu um convite para a viagem <b>${h(sh.code)}</b>, mas o app não conseguiu se conectar.</p>
+        <p class="small mut">Confira a internet e toque em "Tentar de novo".</p><button class="btn full" data-a="retryLink" data-k="${h(sh.code)}">Tentar de novo</button>`}`;
+  },
+  pickMe(){
+    const tr=curT();
+    return `<h2>Quem é você?${xBtn}</h2><div class="small mut" style="margin-bottom:12px">Assim o app mostra quanto <b>você</b> deve ou recebe. Fica salvo só para você.</div>
+      ${ppick(tr,[meId(tr)],'setMe').replace('class="pp"','class="pp all"')}
+      ${(tr.meta.members||[]).some(m=>m.uid&&m.uid!==UID)?'<div class="tiny mut" style="margin-top:8px">🔗 = já ligado a outro aparelho. Se for você (trocou de celular), pode escolher assim mesmo.</div>':''}
+      <label class="fl">Não está na lista?</label><div class="row"><input data-f="novo" placeholder="ex.: Seu nome" class="grow"><button class="btn sm" data-a="addMe">Entrar</button></div>`;
+  },
+  tripCfg(){
+    const tr=curT(), f=U.f; const mm=f.members;
+    let s = `<h2>⚙️ Viagem${xBtn}</h2>`;
+    if(isCloud(tr)) s += `<button class="btn full" style="margin-bottom:6px" data-a="people">👥 Convidar por link / incluir pessoas</button>`;
+    s += `<label class="fl" style="margin-top:0">Nome</label><input data-f="name" value="${h(f.name)}">
+      <label class="fl">Ícone</label><div class="chips wr">${EMOJIS.map(e=>`<button class="chip ${f.emoji===e?'on':''}" style="font-size:20px;padding:6px 10px" data-a="fEmoji" data-k="${e}">${e}</button>`).join('')}</div>
+      <div class="row" style="gap:8px"><div class="grow"><label class="fl">Ida</label><input type="date" data-f="ini" value="${h(f.ini)}"></div><div class="grow"><label class="fl">Volta</label><input type="date" data-f="fim" value="${h(f.fim)}"></div></div>
+      <label class="fl">Pessoas · cota · Pix · WhatsApp</label>`;
+    mm.forEach((m,i)=>{
+      s += `<div class="itm"><div class="row">${av({meta:{members:mm}},m.id)}<input data-f="members.${i}.nome" value="${h(m.nome)}" class="grow" aria-label="Nome">
+        <div class="stp"><button data-a="cota" data-i="${i}" data-d="-0.5" aria-label="Diminuir cota">−</button><span>${String(m.cota).replace('.',',')}</span><button data-a="cota" data-i="${i}" data-d="0.5" aria-label="Aumentar cota">+</button></div></div>
+        <div class="row" style="margin-top:8px"><input data-f="members.${i}.pix" placeholder="ex.: chave Pix (opcional)" value="${h(m.pix)}" class="grow"><button class="ib" data-a="rmMember" data-i="${i}" aria-label="Remover pessoa">🗑️</button></div>
+        <input data-f="members.${i}.tel" type="tel" inputmode="tel" placeholder="ex.: WhatsApp (11) 98888-7777 (opcional)" value="${h(m.tel||'')}" style="margin-top:8px"></div>`;
+    });
+    s += `<div class="row"><input data-f="novo" placeholder="ex.: Nome de mais alguém" class="grow" value="${h(f.novo)}"><button class="btn sm" data-a="addMember">+ Pessoa</button></div>
+      <div class="tiny mut" style="margin-top:6px">Cota = peso na divisão "Por cota". Ex.: casal = 2, criança = 0,5.</div>
+      <div id="gerr"></div>
+      <button class="btn full" style="margin-top:14px" data-a="saveCfg">Salvar</button>
+      <button class="btn sec full" style="margin-top:8px" data-a="pickMe">Quem sou eu: ${meId(tr)!=null?h(mName(tr,meId(tr))):'escolher'}</button>
+      <button class="btn dan full" style="margin-top:18px" data-a="leaveTrip">Sair desta viagem</button>
+      ${(!isCloud(tr) || tr.meta.by===UID)?`<button class="btn dan full" style="margin-top:8px" data-a="delTrip">Excluir viagem${isCloud(tr)?' para todos':''}</button>`:''}`;
+    return s;
+  },
+  orc(){
+    const f=U.f;
+    return `<h2>Orçamento por categoria${xBtn}</h2><div class="small mut" style="margin-bottom:10px">Defina um limite e acompanhe no Resumo. Deixe vazio para não ter limite.</div>
+      ${CATS.map(k=>`<div class="row" style="margin-bottom:6px"><span style="font-size:20px">${k.e}</span><span class="grow small">${h(k.n)}</span><input data-f="orc.${k.k}" inputmode="decimal" placeholder="sem limite" value="${h(f.orc[k.k]||'')}" style="width:120px;flex:none;text-align:right"></div>`).join('')}
+      <button class="btn full" style="margin-top:14px" data-a="saveOrc">Salvar orçamento</button>`;
+  },
+  pend(){
+    const tr=curT(); const gs=Object.values(tr.g).filter(g=>g.tipo!=='p'&&g.modo==='depois');
+    return `<h2>⏳ A dividir${xBtn}</h2>${gs.length?gs.map(g=>{const k=CAT[g.cat]||CAT.outros; return `<button class="li" data-a="editG" data-id="${g.id}"><div class="ci" style="background:${k.c}26">${k.e}</div><div class="grow"><div class="t">${h(g.desc||k.n)}</div><div class="s">${h(mName(tr,g.pagou))} pagou · toque para definir a divisão</div></div><div class="v num">${R(g.valor)}</div></button>`}).join(''):'<div class="empty">Nada pendente ✅</div>'}`;
+  },
+  cloudInfo(){
+    const on=U.cloud==='on';
+    return `<h2>${on?'☁️ Online':U.cloud==='loading'?'⏳ Conectando…':'⚠️ Offline'}${xBtn}</h2>
+      ${on?`<p class="small">Tudo que você lança vai para o banco na hora e aparece em tempo real para o grupo.</p>`
+        :`<p class="small">Sem conexão com o servidor. Você vê os últimos dados salvos neste aparelho, mas não dá para lançar nada até a internet voltar.</p><button class="btn full" data-a="retry">Tentar de novo</button>`}
+      <div class="ver">Racha Viagem v${APPV}</div>`;
+  },
+  appCfg(){
+    const anon = !USER || USER.is_anonymous;
+    const email = USER && USER.email;
+    let s=`<h2>⚙️ Ajustes${xBtn}</h2><div class="card"><h3>👤 Sua conta</h3>`;
+    if(!USER) s+=`<div class="small mut">Sem conexão agora.</div>`;
+    else if(anon) s+=`<div class="small" style="margin-bottom:8px">Você está como <b>convidado</b> neste aparelho — sem cadastro. Se trocar de celular ou de navegador, é só tocar no link da viagem de novo e escolher seu nome.</div>
+      <div class="small mut" style="margin-bottom:6px">Quer usar as mesmas viagens em outro aparelho? Salve com seu e-mail (opcional):</div>
+      <div class="row"><input data-f="email" type="email" inputmode="email" autocomplete="email" placeholder="ex.: voce@email.com" class="grow" value="${h(U.f&&U.f.email||'')}"></div>
+      <div class="row" style="gap:8px;margin-top:8px"><button class="btn sm grow" data-a="saveEmail">Salvar acesso</button><button class="btn sec sm grow" data-a="loginEmail">Já salvei: entrar</button></div>
+      <div id="gerr"></div>`;
+    else s+=`<div class="small">Conectado como <b>${h(email||'')}</b>. Use o mesmo e-mail em outro aparelho para ver suas viagens.</div>
+      <div id="gerr"></div><button class="btn sec full sm" style="margin-top:10px" data-a="logout">Sair desta conta</button>`;
+    s+=`</div>
+      <button class="btn sec full" data-a="cloudInfo">Status da conexão</button>
+      <button class="btn sec full" style="margin-top:8px" data-a="demo">Adicionar viagem de exemplo</button>
+      <button class="btn dan full" style="margin-top:18px" data-a="resetLocal">Limpar dados guardados neste aparelho</button>
+      <div class="tiny mut" style="margin-top:6px">Não apaga nada do servidor: as viagens voltam ao abrir de novo.</div>
+      <div class="ver">Racha Viagem v${APPV}</div>`;
+    return s;
+  },
+  sug(){
+    const f=U.f;
+    return `<h2>💬 Sugestões${xBtn}</h2><div class="small mut" style="margin-bottom:10px">Achou um problema ou teve uma ideia? Conta aqui — vai direto para quem está desenvolvendo.</div>
+      <div class="seg">${[['ideia','💡 Ideia'],['bug','🐞 Problema'],['elogio','❤️ Elogio']].map(([k,n])=>`<button class="${f.tipo===k?'on':''}" data-a="sTipo" data-k="${k}">${n}</button>`).join('')}</div>
+      <label class="fl">Mensagem</label><textarea data-f="txt" placeholder="ex.: Seria bom poder anexar a foto do cupom">${h(f.txt)}</textarea>
+      <label class="fl">Seu nome (opcional)</label><input data-f="nome" value="${h(f.nome)}" placeholder="ex.: Ana">
+      <div id="gerr"></div>
+      ${U.cloud==='on'?`<button class="btn full" style="margin-top:14px" data-a="sendSug">Enviar</button>`
+        :`<a class="btn full" style="margin-top:14px;text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent('[Racha Viagem v'+APPV+'] '+f.tipo+': '+f.txt)}">Enviar pelo WhatsApp</a><div class="tiny mut" style="margin-top:6px;text-align:center">Sem conexão agora — vai pelo WhatsApp.</div>`}`;
+  },
+};
+
+/* ---------- prévia ao vivo do formulário de gasto ---------- */
+function formG(){
+  const f=U.f;
+  const g = {id:f.id, tipo:'g', desc:f.desc.trim(), cat:f.cat, valor:parseMoney(f.valorS), pagou:f.pagou, data:f.data, modo:f.modo, part:[...f.part], cotas:!!f.cotas, item:f.item||undefined};
+  if(f.modo==='manual'){ g.man={}; for(const k in f.manS){ const v=parseMoney(f.manS[k]); if(v) g.man[k]=v; } }
+  if(f.modo==='itens'){ g.itens=f.itens.map(it=>({id:it.id,desc:it.desc.trim(),valor:parseMoney(it.valorS),part:[...it.part]})); }
+  return g;
+}
+function updPrev(){
+  const tr=curT(); if(!U.sheet || U.sheet.type!=='gasto' || !tr) return;
+  const g=formG(); const el=$('#gprev'); if(!el) return;
+  const rv=$('#restV');
+  if(rv && g.modo==='itens'){ const r=g.valor-(g.itens||[]).reduce((a,i)=>a+i.valor,0); rv.textContent='('+R(r)+')'; rv.style.color = r<0?'var(--neg)':''; }
+  if(g.modo==='depois' || !g.valor){ el.innerHTML=''; $('#gerr').innerHTML=''; return; }
+  const err=validG(g);
+  if(g.modo==='manual'){
+    const s=Object.values(g.man).reduce((a,b)=>a+b,0);
+    el.innerHTML = `<div class="prev small row"><span class="grow">Soma: <b class="num">${R(s)}</b> de ${R(g.valor)}</span><b class="${s===g.valor?'':'neg'}">${s===g.valor?'✅ fechou':(s<g.valor?'faltam ':'sobram ')+R(Math.abs(g.valor-s))}</b></div>`;
+    $('#gerr').innerHTML=''; return;
+  }
+  const sh = err ? null : sharesOf(g,tr);
+  if(!sh){ el.innerHTML=''; $('#gerr').innerHTML = g.valor && err ? `<div class="err">${h(err)}</div>` : ''; return; }
+  $('#gerr').innerHTML='';
+  const ids=Object.keys(sh).sort((a,b)=>sh[b]-sh[a]); const mx=Math.max(...Object.values(sh));
+  el.innerHTML = `<div class="prev"><div class="tiny mut" style="margin-bottom:6px">Quanto cada um paga deste gasto</div>${ids.map(id=>`<div class="pr"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${h(mName(tr,id))}</span><div class="bar" style="width:${sh[id]/mx*100}%"></div><span class="num" style="text-align:right;font-weight:700">${R(sh[id])}</span></div>`).join('')}</div>`;
+}
+
+/* ---------- ações ---------- */
+function toast(m){ const t=$('#toast'); t.innerHTML=`<div class="toast">${h(m)}</div>`; clearTimeout(U.toastT); U.toastT=setTimeout(()=>t.innerHTML='',2800); }
+function ask(msg, ok, fn, dan=true){
+  U.cf=fn;
+  $('#cf').innerHTML=`<div class="cf"><div class="bx"><div style="margin-bottom:16px">${msg}</div><div class="row" style="gap:8px"><button class="btn sec grow" data-a="cfNo">Cancelar</button><button class="btn grow ${dan?'dan':''}" data-a="cfOk">${h(ok)}</button></div></div></div>`;
+}
+function gotoTrip(id){ S.cur=id; U.view='trip'; U.tab='resumo'; U.fcat=null; U.fpess=null; U.lfil='todos'; saveLocal(); render(); window.scrollTo(0,0); }
+function addMyTrip(id){ if(!S.my.includes(id)) S.my.unshift(id); S.seen=true; saveLocal(); }
+function nextColor(mm){ const used=new Set(mm.map(m=>m.c)); let c=0; while(used.has(c)&&c<AVC.length-1) c++; return c; }
+function pushTag(){
+  const f=U.f; if(!f || !f.tags) return;
+  const parts=String(f.tagIn||'').split(/[,;\n]+/).map(x=>x.trim().replace(/\s+/g,' ')).filter(Boolean);
+  for(const n of parts) if(!f.tags.some(t=>t.toLowerCase()===n.toLowerCase())) f.tags.push(n.slice(0,40));
+  f.tagIn='';
+}
+function focusTag(){ const i=$('[data-tag]'); if(i){ i.focus(); } }
+function newGForm(tr,over){
+  const all=(tr.meta.members||[]).map(m=>m.id);
+  return Object.assign({id:uuid(), valorS:'', desc:'', cat:'mercado', pagou:meId(tr)??all[0], data:today(), modo:'igual', part:all, cotas:false, itens:[], manS:{}}, over||{});
+}
+
+const A = {
+  close: closeSheet,
+  bk(d,el,ev){ if(ev.target===el) closeSheet(); },
+  cfNo(){ $('#cf').innerHTML=''; U.cf=null; },
+  cfOk(){ const f=U.cf; $('#cf').innerHTML=''; U.cf=null; f&&f(); },
+  goTrips(){ U.view='trips'; render(); window.scrollTo(0,0); },
+  openTrip(d){ gotoTrip(d.id); },
+  tab(d){ U.tab=d.t; if(d.t!=='gastos'){U.fcat=null;} render(); window.scrollTo(0,0); },
+  filterCat(d){ U.fcat=d.k||null; U.tab='gastos'; render(); },
+  filterP(d){ U.fpess=d.id||null; render(); },
+  lfil(d){ U.lfil=d.k; render(); },
+  cloudInfo(){ openSheet('cloudInfo'); },
+  appCfg(){ U.f={email:''}; openSheet('appCfg'); },
+  demo(){ const tr=demoTrip(); S.trips[tr.meta.id]=tr; S.me[tr.meta.id]='m0'; addMyTrip(tr.meta.id); closeSheet(); gotoTrip(tr.meta.id); },
+  retry(){ closeSheet(); U.cloud='loading'; render(); (sb&&UID ? refresh() : boot()).then(()=>{ if(U.cloud==='on') subscribeRT(); }); },
+  retryLink(d){ closeSheet(); location.hash='v-'+d.k; A.retry(); },
+  async share(d){ try{ await navigator.share({title:'Racha Viagem', text:d.v}); }catch(e){} },
+  newTrip(){ U.f={name:'',emoji:'🏖️',ini:today(),fim:'',eu:'',tags:[],tagIn:''}; openSheet('newTrip'); },
+  fEmoji(d){ U.f.emoji=d.k; renderSheet(); },
+  async saveTrip(d,el){
+    const f=U.f; const err=$('#gerr');
+    if(!f.name.trim()){ err.innerHTML='<div class="err">Dê um nome para a viagem.</div>'; return; }
+    if(!f.eu.trim()){ err.innerHTML='<div class="err">Informe seu nome.</div>'; return; }
+    if(U.cloud!=='on' || !sb){ err.innerHTML='<div class="err">Sem internet agora — conecte para criar a viagem.</div>'; return; }
+    pushTag();
+    el.disabled=true; el.textContent='Criando…';
+    const { data, error } = await sb.rpc('create_trip', { p_name:f.name.trim(), p_emoji:f.emoji, p_ini:f.ini||null, p_fim:f.fim||null, p_eu:f.eu.trim(), p_convidados:f.tags });
+    if(error || !data){ el.disabled=false; el.textContent='Criar viagem'; err.innerHTML='<div class="err">Não consegui criar agora. '+h((error&&error.message)||'')+'</div>'; return; }
+    const tid = Array.isArray(data) ? data[0].id : data.id;
+    try{ await fetchTrips(tid); }catch(e){}
+    closeSheet(); gotoTrip(tid); A.people();
+  },
+  join(){ U.f={code:''}; openSheet('join'); },
+  async doJoin(){
+    const code=(U.f.code||'').trim().toUpperCase().replace(/[^A-Z0-9]/g,''); const err=$('#gerr');
+    if(U.cloud!=='on'){ err.innerHTML='<div class="err">Sem internet agora.</div>'; return; }
+    if(code.length!==8){ err.innerHTML='<div class="err">O código tem 8 letras/números.</div>'; return; }
+    err.innerHTML='<div class="ok"><span class="spin" style="width:12px;height:12px"></span> Procurando…</div>';
+    const r = await joinTrip(code);
+    if(r==='notfound') err.innerHTML='<div class="err">Não achei nenhuma viagem com esse código.</div>';
+    if(r==='err') err.innerHTML='<div class="err">Não consegui buscar agora. Tente de novo.</div>';
+  },
+  pickMe(){ U.f={novo:''}; openSheet('pickMe'); },
+  people(){ U.f={tags:[],tagIn:''}; openSheet('people'); },
+  tagAdd(){ pushTag(); renderSheet(); focusTag(); },
+  tagDel(d){ U.f.tags.splice(+d.i,1); renderSheet(); },
+  savePeople(){
+    const tr=curT(); pushTag();
+    const names=U.f.tags; if(!names.length){ $('#gerr').innerHTML='<div class="err">Digite um nome e aperte Enter.</div>'; focusTag(); return; }
+    const mm=tr.meta.members||(tr.meta.members=[]);
+    const dup=names.filter(n=>mm.some(m=>m.nome.toLowerCase()===n.toLowerCase()));
+    const add=[]; for(const n of names){ if(dup.includes(n)) continue; add.push({id:uuid(),nome:n,cota:1,pix:'',tel:'',c:nextColor([...mm,...add]),_t:new Date().toISOString()}); }
+    if(add.length) addMembers(tr, add);
+    U.f.tags=[]; U.f.tagIn=''; renderSheet(); render();
+    toast(dup.length?'Já estava(m) na viagem: '+dup.join(', '):'Pessoas adicionadas ✓');
+  },
+  async setMe(d){
+    const tr=curT(); closeSheet();
+    if(!isCloud(tr)){ S.me[tr.meta.id]=d.id; saveLocal(); render(); return; }
+    const prev=meId(tr); if(prev===d.id){ render(); return; }
+    // uma conta = uma pessoa por viagem: solta a anterior antes de pegar a nova
+    if(prev){ mem(tr,prev).uid=null; await run(sb.from('trip_members').update({user_id:null}).eq('id',prev),'quem é você'); }
+    const m=mem(tr,d.id); if(m) m.uid=UID; saveLocal(); render();
+    await run(sb.from('trip_members').update({user_id:UID}).eq('id',d.id),'quem é você');
+  },
+  async addMe(){
+    const tr=curT(); const n=(U.f.novo||'').trim(); if(!n) return;
+    closeSheet();
+    if(!isCloud(tr)){ const m={id:uuid(),nome:n,cota:1,pix:'',tel:'',c:nextColor(tr.meta.members)}; tr.meta.members.push(m); S.me[tr.meta.id]=m.id; saveLocal(); render(); return; }
+    const prev=meId(tr);
+    if(prev){ mem(tr,prev).uid=null; await run(sb.from('trip_members').update({user_id:null}).eq('id',prev),'quem é você'); }
+    const m={id:uuid(),nome:n,cota:1,pix:'',tel:'',c:nextColor(tr.meta.members),uid:UID,_t:new Date().toISOString()};
+    tr.meta.members.push(m); saveLocal(); render();
+    await run(sb.from('trip_members').insert(Object.assign(memberRow(tr.meta.id,m),{user_id:UID})),'você na viagem');
+  },
+  tripCfg(){ const tr=curT(); U.f={name:tr.meta.name,emoji:tr.meta.emoji||'🧳',ini:tr.meta.ini||'',fim:tr.meta.fim||'',members:clone(tr.meta.members||[]),novo:''}; openSheet('tripCfg'); },
+  cota(d){ const m=U.f.members[+d.i]; m.cota=Math.max(0,Math.min(10,Math.round(((m.cota??1)+parseFloat(d.d))*2)/2)); renderSheet(); },
+  addMember(){ const n=(U.f.novo||'').trim(); if(!n) return; const mm=U.f.members; const used=new Set(mm.map(m=>m.c)); let c=0; while(used.has(c)&&c<AVC.length-1) c++; mm.push({id:uuid(),nome:n,cota:1,pix:'',tel:'',c,_new:true,_t:new Date().toISOString()}); U.f.novo=''; renderSheet(); },
+  rmMember(d){
+    const tr=curT(); const m=U.f.members[+d.i];
+    const used=Object.values(tr.g).some(g=> g.pagou===m.id || g.de===m.id || g.para===m.id || (g.part||[]).includes(m.id) || (g.man&&g.man[m.id]) || (g.itens||[]).some(i=>i.part.includes(m.id)));
+    if(used){ $('#gerr').innerHTML=`<div class="err">${h(m.nome)} aparece em gastos. Tire a pessoa desses gastos antes de remover.</div>`; return; }
+    U.f.members.splice(+d.i,1); renderSheet();
+  },
+  async saveCfg(){
+    const tr=curT(), f=U.f;
+    if(!f.name.trim()){ $('#gerr').innerHTML='<div class="err">Dê um nome para a viagem.</div>'; return; }
+    if(f.members.some(m=>!m.nome.trim())){ $('#gerr').innerHTML='<div class="err">Toda pessoa precisa de nome.</div>'; return; }
+    const before=tr.meta.members;
+    const after=f.members.map(m=>Object.assign(m,{nome:m.nome.trim().slice(0,40),pix:(m.pix||'').trim(),tel:(m.tel||'').replace(/[^\d+() -]/g,'').trim()}));
+    Object.assign(tr.meta,{name:f.name.trim(),emoji:f.emoji,ini:f.ini,fim:f.fim,members:after.map(m=>{const c=Object.assign({},m); delete c._new; return c;})});
+    putMeta(tr); closeSheet(); render(); toast('Salvo');
+    if(!isCloud(tr)) return;
+    const tid=tr.meta.id;
+    for(const m of before) if(!after.some(x=>x.id===m.id)) await run(sb.from('trip_members').delete().eq('id',m.id),'a remoção de '+m.nome);
+    const novos=after.filter(m=>m._new);
+    if(novos.length) await run(sb.from('trip_members').insert(novos.map(m=>memberRow(tid,m))),'as pessoas novas');
+    for(const m of after){
+      if(m._new) continue;
+      const o=before.find(x=>x.id===m.id);
+      if(o && (o.nome!==m.nome || o.cota!==m.cota || o.pix!==m.pix || (o.tel||'')!==(m.tel||'') || o.c!==m.c))
+        await run(sb.from('trip_members').update({nome:m.nome,cota:m.cota,pix:m.pix,tel:m.tel,cor:(m.c||0)%10}).eq('id',m.id),'os dados de '+m.nome);
+    }
+  },
+  leaveTrip(){
+    const tr=curT();
+    ask(`Sair de <b>${h(tr.meta.name)}</b>? ${isCloud(tr)?'A viagem continua para o grupo; você pode voltar pelo link ou com o código <b>'+h(tr.meta.code)+'</b>.':'Ela está só neste aparelho e será apagada.'}`,'Sair',async()=>{
+      const id=tr.meta.id;
+      if(isCloud(tr) && !(await run(sb.from('trip_access').delete().eq('trip_id',id).eq('user_id',UID),'a saída'))) return;
+      S.my=S.my.filter(x=>x!==id); delete S.trips[id]; delete S.me[id]; S.cur=null; saveLocal(); closeSheet(); U.view='trips'; render();
+    });
+  },
+  delTrip(){
+    const tr=curT();
+    ask(`Excluir <b>${h(tr.meta.name)}</b>${isCloud(tr)?' para <b>todo o grupo</b>':''}? Isso apaga gastos e lista. Não dá para desfazer.`,'Excluir',async()=>{
+      const id=tr.meta.id;
+      if(isCloud(tr) && !(await run(sb.from('trips').delete().eq('id',id),'a exclusão'))) return;
+      S.my=S.my.filter(x=>x!==id); delete S.trips[id]; delete S.me[id]; S.cur=null; saveLocal(); closeSheet(); U.view='trips'; render(); toast('Viagem excluída');
+    });
+  },
+  orc(){ const tr=curT(); U.f={orc:Object.fromEntries(Object.entries(tr.meta.orc||{}).map(([k,v])=>[k,moneyIn(v)]))}; openSheet('orc'); },
+  saveOrc(){ const tr=curT(); const o={}; for(const k in U.f.orc){ const v=parseMoney(U.f.orc[k]); if(v) o[k]=v; } tr.meta.orc=o; putMeta(tr); closeSheet(); render(); },
+  pendList(){ openSheet('pend'); },
+
+  /* gasto */
+  addG(){ const tr=curT(); if(!(tr.meta.members||[]).length){ A.tripCfg(); return; } U.f=newGForm(tr); openSheet('gasto'); updPrev(); setTimeout(()=>{const i=$('.money'); i&&i.focus();},50); },
+  editG(d){
+    const tr=curT(); const g=tr.g[d.id]; if(!g) return;
+    U.f=newGForm(tr,{id:g.id,valorS:moneyIn(g.valor),desc:g.desc||'',cat:g.cat,pagou:g.pagou,data:g.data||today(),modo:g.modo,part:[...(g.part||[])],cotas:!!g.cotas,item:g.item,
+      itens:(g.itens||[]).map(i=>({id:i.id,desc:i.desc,valorS:moneyIn(i.valor),part:[...i.part]})), manS:Object.fromEntries(Object.entries(g.man||{}).map(([k,v])=>[k,moneyIn(v)]))});
+    if(g.modo==='depois') U.f.part=(tr.meta.members||[]).map(m=>m.id);
+    openSheet('gasto'); updPrev();
+  },
+  fCat(d){ U.f.cat=d.k; renderSheet(); updPrev(); },
+  fPagou(d){ U.f.pagou=d.id; renderSheet(); updPrev(); },
+  fModo(d){
+    U.f.modo=d.k;
+    if(d.k==='itens' && !U.f.itens.length) U.f.itens.push({id:'i'+rid(5),desc:'',valorS:'',part:[...U.f.part]});
+    renderSheet(); updPrev();
+  },
+  fPart(d){ const p=U.f.part; const i=p.indexOf(d.id); i>=0?p.splice(i,1):p.push(d.id); renderSheet(); updPrev(); },
+  fAll(){ U.f.part=(curT().meta.members||[]).map(m=>m.id); renderSheet(); updPrev(); },
+  fNone(){ U.f.part=[]; renderSheet(); updPrev(); },
+  fItAdd(){ U.f.itens.push({id:'i'+rid(5),desc:'',valorS:'',part:(curT().meta.members||[]).map(m=>m.id)}); renderSheet(); updPrev(); },
+  fItDel(d){ U.f.itens.splice(+d.i,1); renderSheet(); updPrev(); },
+  fItPart(d){ const p=U.f.itens[+d.i].part; const i=p.indexOf(d.id); i>=0?p.splice(i,1):p.push(d.id); renderSheet(); updPrev(); },
+  fManRest(){
+    const tr=curT(); const f=U.f; const tot=parseMoney(f.valorS); if(!tot) return;
+    const filled={}; let s=0; for(const m of tr.meta.members){ const v=parseMoney(f.manS[m.id]); if(v){filled[m.id]=v; s+=v;} }
+    const empty=tr.meta.members.filter(m=>!filled[m.id]).map(m=>m.id);
+    if(!empty.length || s>=tot) return;
+    const sp=splitW(tot-s, empty, ()=>1); for(const id in sp) f.manS[id]=moneyIn(sp[id]);
+    renderSheet(); updPrev();
+  },
+  saveG(){
+    const tr=curT(); const g=formG();
+    const err = g.modo==='depois' ? (!g.valor?'Informe o valor.':!g.pagou?'Escolha quem pagou.':'') : validG(g);
+    if(err){ $('#gerr').innerHTML=`<div class="err">${h(err)}</div>`; return; }
+    if(g.modo==='depois'){ g.part=[]; }
+    if(g.modo!=='manual') delete g.man;
+    if(g.modo!=='itens'){ delete g.itens; }
+    if(!g.item) delete g.item;
+    putG(tr,g); closeSheet(); render(); toast('Gasto salvo');
+  },
+  delG(){
+    const tr=curT(); const id=U.f.id;
+    ask('Excluir este gasto?','Excluir',async()=>{
+      for(const it of Object.values(tr.it)) if(it.gid===id) delete it.gid;   // o banco também solta o vínculo
+      await delG(tr,id);
+      closeSheet(); render(); toast('Gasto excluído');
+    });
+  },
+  /* pagamentos */
+  markPaid(d){ const tr=curT(); U.f={id:uuid(),valorS:moneyIn(+d.v),de:d.de,para:d.para,data:today()}; openSheet('pag'); },
+  editPag(d){ const g=curT().g[d.id]; U.f={id:g.id,valorS:moneyIn(g.valor),de:g.de,para:g.para,data:g.data||today()}; openSheet('pag'); },
+  pDe(d){ U.f.de=d.id; renderSheet(); },
+  pPara(d){ U.f.para=d.id; renderSheet(); },
+  savePag(){
+    const tr=curT(), f=U.f; const v=parseMoney(f.valorS);
+    if(!v){ $('#gerr').innerHTML='<div class="err">Informe o valor.</div>'; return; }
+    if(f.de===f.para){ $('#gerr').innerHTML='<div class="err">Escolha pessoas diferentes.</div>'; return; }
+    putG(tr,{id:f.id,tipo:'p',de:f.de,para:f.para,valor:v,data:f.data}); closeSheet(); render(); toast('Pagamento registrado 💸');
+  },
+  delPag(){ const tr=curT(); const id=U.f.id; ask('Excluir este pagamento?','Excluir',()=>{ delG(tr,id); closeSheet(); render(); }); },
+  /* itens */
+  addItem(){ const tr=curT(); U.f={id:uuid(),nome:'',qtd:'',cat:'mercado',resp:null}; openSheet('item'); setTimeout(()=>{const i=$('[data-f=nome]'); i&&i.focus();},50); },
+  editItem(d){ const it=curT().it[d.id]; U.f={id:it.id,nome:it.nome,qtd:it.qtd||'',cat:it.cat||'outros',resp:it.resp||null}; openSheet('item'); },
+  iResp(d){ U.f.resp = U.f.resp===d.id ? null : d.id; renderSheet(); },
+  saveItem(d,el,ev,more){
+    const tr=curT(), f=U.f; if(!f.nome.trim()){ $('#gerr').innerHTML='<div class="err">Diga o que é o item.</div>'; return; }
+    const old=tr.it[f.id]||{status:'pend',ord:Object.keys(tr.it).length};
+    putIt(tr,Object.assign(clone(old),{id:f.id,nome:f.nome.trim(),qtd:f.qtd.trim(),cat:f.cat,resp:f.resp||null}));
+    render();
+    if(more){ U.f={id:uuid(),nome:'',qtd:'',cat:f.cat,resp:f.resp}; renderSheet(); setTimeout(()=>{const i=$('[data-f=nome]'); i&&i.focus();},50); toast('Adicionado'); }
+    else closeSheet();
+  },
+  saveItemMore(d,el,ev){ A.saveItem(d,el,ev,true); },
+  delItem(){ const tr=curT(); const id=U.f.id; ask('Excluir este item da lista?','Excluir',()=>{ delIt(tr,id); closeSheet(); render(); }); },
+  buy(d){ const tr=curT(); if(!canEdit(tr)) return; const it=tr.it[d.id]; U.f={iid:it.id,pagou:it.resp||meId(tr)||(tr.meta.members[0]||{}).id,valorS:'',modo:'igual'}; openSheet('buy'); },
+  async saveBuy(){
+    const tr=curT(), f=U.f; const it=clone(tr.it[f.iid]); const v=parseMoney(f.valorS);
+    if(v && !f.pagou){ $('#gerr').innerHTML='<div class="err">Escolha quem comprou.</div>'; return; }
+    it.status='ok'; it.resp=f.pagou||it.resp;
+    closeSheet(); toast(v?'Comprado e lançado nos gastos 🧾':'Marcado como comprado ✓');
+    if(v){
+      const all=tr.meta.members.map(m=>m.id);
+      const g={id:uuid(),tipo:'g',desc:it.nome+(it.qtd?' ('+it.qtd+')':''),cat:it.cat||'outros',valor:v,pagou:f.pagou,data:today(),modo:f.modo,part:f.modo==='igual'?all:[],item:it.id};
+      it.gid=g.id; tr.it[it.id]=it; render();
+      if(!(await putG(tr,g))) return;            // o gasto precisa existir antes do item apontar para ele
+    }
+    await putIt(tr,it); render();
+  },
+  unbuy(d){
+    const tr=curT(); if(!canEdit(tr)) return; const it=clone(tr.it[d.id]);
+    const go=async(rmG)=>{ const gid=it.gid; it.status='pend'; delete it.gid; if(rmG&&gid) await delG(tr,gid); await putIt(tr,it); render(); };
+    if(it.gid && tr.g[it.gid]) ask(`Desmarcar <b>${h(it.nome)}</b>? O gasto de ${R(tr.g[it.gid].valor)} ligado a ele também será excluído.`,'Desmarcar',()=>go(true));
+    else go(false);
+  },
+  /* outros */
+  async copy(d){
+    try{ await navigator.clipboard.writeText(d.v); toast('Copiado ✓'); }
+    catch(e){ ask(`<div class="small mut" style="margin-bottom:6px">Não deu para copiar automaticamente. Selecione e copie:</div><textarea readonly style="min-height:120px">${h(d.v)}</textarea>`,'OK',()=>{},false); }
+  },
+  sug(){ U.f={tipo:'ideia',txt:'',nome:''}; openSheet('sug'); },
+  sTipo(d){ U.f.tipo=d.k; renderSheet(); },
+  async sendSug(d,el){
+    const f=U.f; if(!f.txt.trim()){ $('#gerr').innerHTML='<div class="err">Escreva a mensagem.</div>'; return; }
+    el.disabled=true;
+    const {error}=await sb.from('suggestions').insert({user_id:UID,tipo:f.tipo,txt:f.txt.trim().slice(0,2000),nome:f.nome.trim().slice(0,60),tela:(U.view==='trip'?U.tab:'viagens'),ua:navigator.userAgent.slice(0,200),v:APPV});
+    if(error){ el.disabled=false; $('#gerr').innerHTML='<div class="err">Não consegui enviar agora.</div>'; return; }
+    closeSheet(); toast('Obrigado! Sugestão enviada 💚');
+  },
+  async saveEmail(){
+    const email=(U.f&&U.f.email||'').trim(); const err=$('#gerr');
+    if(!/^\S+@\S+\.\S+$/.test(email)){ err.innerHTML='<div class="err">Digite um e-mail válido.</div>'; return; }
+    const {error}=await sb.auth.updateUser({email},{emailRedirectTo:APPURL});
+    err.innerHTML = error ? `<div class="err">${h(error.message||'Não consegui agora.')}</div>` : `<div class="ok">📧 Enviamos um link para <b>${h(email)}</b>. Abra o e-mail e toque no link para confirmar.</div>`;
+  },
+  async loginEmail(){
+    const email=(U.f&&U.f.email||'').trim(); const err=$('#gerr');
+    if(!/^\S+@\S+\.\S+$/.test(email)){ err.innerHTML='<div class="err">Digite o e-mail que você salvou.</div>'; return; }
+    const {error}=await sb.auth.signInWithOtp({email, options:{shouldCreateUser:false, emailRedirectTo:APPURL}});
+    err.innerHTML = error ? `<div class="err">Não achei esse e-mail. Ele foi salvo e confirmado antes?</div>` : `<div class="ok">📧 Enviamos um link de acesso para <b>${h(email)}</b>. Abra-o <b>neste aparelho</b>.</div>`;
+  },
+  logout(){ ask('Sair desta conta neste aparelho? Suas viagens continuam salvas no seu e-mail.','Sair',async()=>{ try{ await sb.auth.signOut(); }catch(e){} try{ localStorage.removeItem('rachaviagem:lastuid'); }catch(e){} location.reload(); }); },
+  resetLocal(){ ask('Limpar os dados guardados neste aparelho? A viagem de exemplo some; as viagens do grupo voltam do servidor.','Limpar',()=>{ try{localStorage.removeItem(LSK2(UID));}catch(e){} S=migrate({}); S.uid=UID; closeSheet(); U.view='trips'; render(); refresh(); }); },
+};
+
+/* ---------- eventos ---------- */
+document.addEventListener('click', ev=>{
+  const el = ev.target.closest('[data-a]'); if(!el) return;
+  const a = el.dataset.a; if(!A[a]) return;
+  if(a==='bk'){ if(ev.target===el) closeSheet(); return; }   // clique fora da folha
+  if(el.tagName==='A' && a!=='cloudInfo') return;
+  ev.preventDefault();
+  A[a](el.dataset, el, ev);
+});
+function setPath(o, path, v){
+  const ks=path.split('.'); let x=o;
+  for(let i=0;i<ks.length-1;i++){ x = x[ks[i]] ?? (x[ks[i]]={}); }
+  x[ks[ks.length-1]] = v;
+}
+document.addEventListener('input', ev=>{
+  const el=ev.target.closest('[data-f]'); if(!el || !U.f) return;
+  let path=el.dataset.f;
+  const v = el.type==='checkbox' ? el.checked : el.value;
+  if(path.startsWith('man.')) path='manS.'+path.slice(4);
+  else if(/^itens\.\d+\.valorS$/.test(path) || /^itens\.\d+\.desc$/.test(path)) {/* ok */}
+  setPath(U.f, path, v);
+  if(path==='code') el.value = v.toUpperCase();
+  if(el.dataset.tag && /[,;]/.test(v)){ pushTag(); renderSheet(); focusTag(); return; }
+  updPrev();
+});
+document.addEventListener('change', ev=>{
+  const el=ev.target.closest('[data-f]'); if(!el || !U.f) return;
+  if(el.type==='checkbox'){ setPath(U.f, el.dataset.f, el.checked); updPrev(); }
+});
+document.addEventListener('keydown', ev=>{
+  const t=ev.target;
+  if(t && t.dataset && t.dataset.tag && (ev.key==='Enter' || ev.keyCode===13)){
+    ev.preventDefault(); U.f.tagIn=t.value; pushTag(); renderSheet(); focusTag(); return;
+  }
+  if(t && t.dataset && t.dataset.tag && ev.key==='Backspace' && !t.value && U.f.tags.length){ U.f.tags.pop(); renderSheet(); focusTag(); return; }
+});
+document.addEventListener('keydown', ev=>{ if(ev.key==='Escape'){ if($('#cf').innerHTML) A.cfNo(); else closeSheet(); } });
+
+/* ---------- início ---------- */
+boot();
+</script>
+</body>
+</html>
