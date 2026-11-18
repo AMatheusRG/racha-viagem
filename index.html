@@ -184,7 +184,7 @@ a{color:var(--ac)}
 <div id="toast"></div>
 <script>
 'use strict';
-const APPV = '0.3.0';
+const APPV = '0.4.0';
 // Supabase: URL e chave PUBLICÁVEL (feita para ficar no app; quem protege os dados são as regras RLS do banco)
 const SB_URL = 'https://praisiwdxpwgtcyqrxcb.supabase.co';
 const SB_KEY = 'sb_publishable_CRnn6Y0DPZ1KeZ0Df7aIWQ_efMbOwXI';
@@ -274,9 +274,30 @@ function sharesOf(g, tr){
     default: return null;
   }
 }
+// quem pagou quanto de um gasto: {pessoa: centavos}. Vários pagadores ficam em g.pagadores.
+function payersOf(g){
+  const p=g.pagadores;
+  if(p && Object.keys(p).length) return p;
+  return g.pagou ? {[g.pagou]: g.valor} : {};
+}
+function validPag(g){
+  const p=g.pagadores; if(!p || !Object.keys(p).length) return '';
+  const vals=Object.values(p);
+  if(vals.some(v=>!(v>0))) return 'Cada pagador precisa ter um valor maior que zero.';
+  const s=vals.reduce((a,b)=>a+b,0);
+  if(s!==g.valor) return s<g.valor ? 'Os pagamentos somam '+R(s)+': faltam '+R(g.valor-s)+'.' : 'Os pagamentos somam '+R(s)+': passou '+R(s-g.valor)+' do total.';
+  return '';
+}
+function pagouTxt(tr,g){
+  const ids=Object.keys(payersOf(g));
+  if(ids.length<=1) return h(mName(tr,g.pagou))+' pagou';
+  if(ids.length===2) return h(mName(tr,ids[0]))+' e '+h(mName(tr,ids[1]))+' pagaram';
+  return h(mName(tr,g.pagou))+' +'+(ids.length-1)+' pagaram';
+}
 function validG(g){
   if(!(g.valor>0)) return 'Informe o valor.';
   if(!g.pagou) return 'Escolha quem pagou.';
+  { const e=validPag(g); if(e) return e; }
   if(g.modo==='igual'||g.modo==='cota'){ if(!(g.part||[]).length) return 'Escolha pelo menos uma pessoa na divisão.'; }
   if(g.modo==='manual'){
     const s = Object.values(g.man||{}).reduce((a,b)=>a+(b||0),0);
@@ -306,7 +327,7 @@ function calc(tr){
     byCat[g.cat] = (byCat[g.cat]||0) + g.valor;
     const sh = sharesOf(g,tr);
     if(!sh){ pend+=g.valor; pendN++; continue; }
-    paid[g.pagou]=(paid[g.pagou]||0)+g.valor;
+    addTo(paid, payersOf(g));
     addTo(owed, sh);
   }
   const bal={}; const ids = new Set([...Object.keys(paid),...Object.keys(owed)]);
@@ -383,11 +404,12 @@ function rowToG(r){
   if(r.modo==='manual') g.man = r.man||{};
   if(r.modo==='itens') g.itens = r.itens||[];
   if(r.item_id) g.item = r.item_id;
+  if(r.pagadores && Object.keys(r.pagadores).length>1) g.pagadores = Object.fromEntries(Object.entries(r.pagadores).map(([k,v])=>[k,Number(v)]));
   return g;
 }
 const gToRow = (tid,g) => g.tipo==='p'
-  ? {id:g.id, trip_id:tid, tipo:'p', descr:'', cat:'outros', valor:g.valor, pagou:null, de:g.de, para:g.para, data:g.data||today(), modo:null, part:[], man:{}, itens:[], cotas:false, item_id:null}
-  : {id:g.id, trip_id:tid, tipo:'g', descr:(g.desc||'').slice(0,120), cat:g.cat, valor:g.valor, pagou:g.pagou, de:null, para:null, data:g.data||today(), modo:g.modo, part:g.part||[], man:g.man||{}, itens:g.itens||[], cotas:!!g.cotas, item_id:g.item||null};
+  ? {id:g.id, trip_id:tid, tipo:'p', descr:'', cat:'outros', valor:g.valor, pagou:null, de:g.de, para:g.para, data:g.data||today(), modo:null, part:[], man:{}, itens:[], cotas:false, item_id:null, pagadores:{}}
+  : {id:g.id, trip_id:tid, tipo:'g', descr:(g.desc||'').slice(0,120), cat:g.cat, valor:g.valor, pagou:g.pagou, de:null, para:null, data:g.data||today(), modo:g.modo, part:g.part||[], man:g.man||{}, itens:g.itens||[], cotas:!!g.cotas, item_id:g.item||null, pagadores:g.pagadores||{}};
 const rowToIt = r => ({id:r.id, nome:r.nome, qtd:r.qtd||'', cat:r.cat, resp:r.resp, status:r.status, gid:r.gasto_id||undefined, ord:r.ord||0, t:Date.parse(r.updated_at)||0});
 const itToRow = (tid,i) => ({id:i.id, trip_id:tid, nome:i.nome, qtd:i.qtd||'', cat:i.cat||'outros', resp:i.resp||null, status:i.status||'pend', gasto_id:i.gid||null, ord:i.ord||0});
 const byCreated = (a,b) => String(a._t||'').localeCompare(String(b._t||'')) || (a.c-b.c);
@@ -772,7 +794,7 @@ function gastosHTML(tr){
   if(mm.length>1) html += `<div class="chips" style="margin-bottom:6px"><button class="chip ${!U.fpess?'on':''}" data-a="filterP" data-id="">Todos</button>${mm.map(m=>`<button class="chip ${U.fpess===m.id?'on':''}" data-a="filterP" data-id="${m.id}">${av(tr,m.id,'s').replace('class="av s"','class="av s" style="width:20px;height:20px;font-size:9px;border:0;background:'+AVC[(m.c||0)%AVC.length]+'"')} ${h(m.nome)}</button>`).join('')}</div>`;
   if(U.fcat==='_pend') gs = gs.filter(g=>g.tipo!=='p' && g.modo==='depois');
   else if(U.fcat) gs = gs.filter(g=>g.cat===U.fcat);
-  if(U.fpess){ gs = gs.filter(g=> g.tipo==='p' ? (g.de===U.fpess||g.para===U.fpess) : (g.pagou===U.fpess || (sharesOf(g,tr)||{})[U.fpess])); }
+  if(U.fpess){ gs = gs.filter(g=> g.tipo==='p' ? (g.de===U.fpess||g.para===U.fpess) : (payersOf(g)[U.fpess] || (sharesOf(g,tr)||{})[U.fpess])); }
   if(!gs.length) return html + `<div class="empty"><div class="e">🧾</div><b>${Object.keys(tr.g||{}).length?'Nada com esse filtro':'Nenhum gasto lançado'}</b>${Object.keys(tr.g||{}).length?'Troque o filtro acima.':'Toque no + para lançar mercado, gasolina, bebidas…'}</div>`;
   const sum = gs.filter(g=>g.tipo!=='p').reduce((a,g)=>a+g.valor,0);
   if(U.fcat||U.fpess) html += `<div class="small mut" style="margin:8px 2px">Total filtrado: <b style="color:var(--tx)">${R(sum)}</b>${U.fpess?' · parte de '+h(mName(tr,U.fpess))+': <b style="color:var(--tx)">'+R(gs.filter(g=>g.tipo!=='p').reduce((a,g)=>a+((sharesOf(g,tr)||{})[U.fpess]||0),0))+'</b>':''}</div>`;
@@ -788,7 +810,7 @@ function gastosHTML(tr){
     const modoTxt = g.modo==='depois' ? '<span class="badge">a dividir</span>' : g.modo==='itens' ? `por item · ${n} pessoas` : g.modo==='manual' ? `manual · ${n} pessoas` : g.modo==='cota' ? `por cota · ${n} pessoas` : `÷ ${n} pessoas`;
     const mine = U.fpess && sh ? `<div class="tiny mut">parte: ${R(sh[U.fpess]||0)}</div>` : '';
     html += `<button class="li" data-a="editG" data-id="${g.id}"><div class="ci" style="background:${k.c}26">${k.e}</div>
-      <div class="grow"><div class="t">${h(g.desc||k.n)}</div><div class="s">${av(tr,g.pagou,'s').replace('class="av s"','class="av s" style="width:16px;height:16px;font-size:8px;border:0;display:inline-grid;vertical-align:-3px;background:'+AVC[((mem(tr,g.pagou)||{}).c||0)%AVC.length]+'"')} ${h(mName(tr,g.pagou))} pagou · ${modoTxt}</div></div>
+      <div class="grow"><div class="t">${h(g.desc||k.n)}</div><div class="s">${av(tr,g.pagou,'s').replace('class="av s"','class="av s" style="width:16px;height:16px;font-size:8px;border:0;display:inline-grid;vertical-align:-3px;background:'+AVC[((mem(tr,g.pagou)||{}).c||0)%AVC.length]+'"')} ${pagouTxt(tr,g)} · ${modoTxt}</div></div>
       <div class="v num">${R(g.valor)}${mine}</div></button>`;
   }
   html += `</div></div>`;
@@ -846,7 +868,7 @@ function acertoHTML(tr){
   html += `<div class="card"><h3>Pagou × consumiu</h3>`;
   const maxV=Math.max(1,...mm.map(m=>Math.max(c.paid[m.id]||0, cons[m.id]||0)));
   // pagou só em gastos (sem acertos)
-  const paidG={}; Object.values(tr.g||{}).forEach(g=>{ if(g.tipo!=='p' && g.modo!=='depois') paidG[g.pagou]=(paidG[g.pagou]||0)+g.valor; });
+  const paidG={}; Object.values(tr.g||{}).forEach(g=>{ if(g.tipo!=='p' && g.modo!=='depois') addTo(paidG, payersOf(g)); });
   const maxP=Math.max(1,...mm.map(m=>Math.max(paidG[m.id]||0, cons[m.id]||0)));
   html += mm.map(m=>`<div style="padding:7px 0;border-top:1px solid var(--line)"><div class="row small" style="margin-bottom:5px">${av(tr,m.id,'s')}<b>${h(m.nome)}</b>${(m.cota??1)!==1?`<span class="badge b">cota ${String(m.cota).replace('.',',')}</span>`:''}</div>
     <div class="pr" style="grid-template-columns:62px 1fr 78px"><span class="mut">pagou</span><div class="bar" style="width:${(paidG[m.id]||0)/maxP*100}%;background:var(--pos);min-width:2px"></div><span class="num" style="text-align:right">${R(paidG[m.id]||0)}</span></div>
@@ -923,7 +945,9 @@ const SHEETS = {
       <input class="money" data-f="valorS" inputmode="decimal" placeholder="R$ 0,00" value="${h(f.valorS)}" aria-label="Valor">
       <label class="fl">Descrição</label><input data-f="desc" placeholder="ex.: Compra no mercado" value="${h(f.desc)}">
       <label class="fl">Categoria</label><div class="cats">${CATS.map(k=>`<button class="${f.cat===k.k?'on':''}" data-a="fCat" data-k="${k.k}"><b>${k.e}</b>${h(k.n.split('/')[0])}</button>`).join('')}</div>
-      <label class="fl">Quem pagou</label>${ppick(tr,[f.pagou],'fPagou')}
+      <label class="fl">Quem pagou <span style="text-transform:none;letter-spacing:0;font-weight:400" class="mut">· toque em mais de um se dividiram o pagamento</span></label>${ppick(tr,f.pags,'fPag')}
+      ${f.pags.length>1?`<div class="itm" style="margin-top:8px">${f.pags.map(id=>`<div class="row" style="margin-bottom:6px">${av(tr,id,'s')}<span class="grow small">${h(mName(tr,id))} pagou</span><input data-f="pagS.${id}" inputmode="decimal" placeholder="automático" value="${h(f.pagS[id]||'')}" style="width:120px;flex:none;text-align:right"></div>`).join('')}
+        <div class="tiny mut">Quem ficar em branco divide o resto igualmente.</div><div id="pprev"></div></div>`:''}
       <label class="fl">Data</label><input type="date" data-f="data" value="${h(f.data)}">
       <label class="fl">Como dividir</label><div class="seg">${MODOS.map(m=>`<button class="${f.modo===m.k?'on':''}" data-a="fModo" data-k="${m.k}">${m.n}</button>`).join('')}</div>`;
     if(f.modo==='igual'||f.modo==='cota'){
@@ -1015,7 +1039,8 @@ const SHEETS = {
       s+=`<div class="card" style="background:#14262a;border-color:#24423f"><h3>🔗 Convite por link</h3>
         <div class="link">${h(link)}</div>
         <div class="row" style="gap:8px;margin-top:10px"><a class="btn sm grow" style="text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(msg)}">WhatsApp</a>${navigator.share?`<button class="btn sec sm grow" data-a="share" data-v="${h(msg)}">Compartilhar…</button>`:''}<button class="btn sec sm grow" data-a="copy" data-v="${h(link)}">Copiar link</button></div>
-        <div class="tiny mut" style="margin-top:8px">Código da viagem: <b style="color:var(--tx);letter-spacing:.12em">${h(tr.meta.code)}</b> · O link abre direto <b>esta</b> viagem.</div>
+        <div class="row" style="margin-top:10px;gap:8px"><div class="grow small mut">Código: <b class="num" style="color:var(--tx);letter-spacing:.14em;font-size:16px">${h(tr.meta.code)}</b></div><button class="btn sec sm" data-a="copy" data-v="${h(tr.meta.code)}">Copiar código</button></div>
+        <div class="tiny mut" style="margin-top:6px">O link abre direto <b>esta</b> viagem. O código serve para quem prefere digitar em "Entrar com código".</div>
         <details style="margin-top:8px"><summary class="tiny" style="color:var(--ac)">Quem pode abrir o link?</summary><div class="tiny mut" style="margin-top:6px"><b>Qualquer pessoa com o link</b> entra direto, sem cadastro — por isso mande só para quem vai na viagem. Quem preferir nem abrir o app (ex.: avós) pode ficar só na lista abaixo: você lança por ela e manda o extrato pelo WhatsApp (aba Acerto).</div></details></div>`;
     } else {
       s+=`<div class="banner">🧪 <span class="grow">Viagem de exemplo: não dá para convidar. Crie uma viagem de verdade para mandar o link.</span></div>`;
@@ -1072,7 +1097,7 @@ const SHEETS = {
   },
   pend(){
     const tr=curT(); const gs=Object.values(tr.g).filter(g=>g.tipo!=='p'&&g.modo==='depois');
-    return `<h2>⏳ A dividir${xBtn}</h2>${gs.length?gs.map(g=>{const k=CAT[g.cat]||CAT.outros; return `<button class="li" data-a="editG" data-id="${g.id}"><div class="ci" style="background:${k.c}26">${k.e}</div><div class="grow"><div class="t">${h(g.desc||k.n)}</div><div class="s">${h(mName(tr,g.pagou))} pagou · toque para definir a divisão</div></div><div class="v num">${R(g.valor)}</div></button>`}).join(''):'<div class="empty">Nada pendente ✅</div>'}`;
+    return `<h2>⏳ A dividir${xBtn}</h2>${gs.length?gs.map(g=>{const k=CAT[g.cat]||CAT.outros; return `<button class="li" data-a="editG" data-id="${g.id}"><div class="ci" style="background:${k.c}26">${k.e}</div><div class="grow"><div class="t">${h(g.desc||k.n)}</div><div class="s">${pagouTxt(tr,g)} · toque para definir a divisão</div></div><div class="v num">${R(g.valor)}</div></button>`}).join(''):'<div class="empty">Nada pendente ✅</div>'}`;
   },
   cloudInfo(){
     const on=U.cloud==='on';
@@ -1116,7 +1141,16 @@ const SHEETS = {
 /* ---------- prévia ao vivo do formulário de gasto ---------- */
 function formG(){
   const f=U.f;
-  const g = {id:f.id, tipo:'g', desc:f.desc.trim(), cat:f.cat, valor:parseMoney(f.valorS), pagou:f.pagou, data:f.data, modo:f.modo, part:[...f.part], cotas:!!f.cotas, item:f.item||undefined};
+  const g = {id:f.id, tipo:'g', desc:f.desc.trim(), cat:f.cat, valor:parseMoney(f.valorS), pagou:f.pags[0]||null, data:f.data, modo:f.modo, part:[...f.part], cotas:!!f.cotas, item:f.item||undefined};
+  if(f.pags.length>1){
+    // valores digitados ficam fixos; os em branco dividem o resto igualmente
+    const p={}; let fixo=0; const vazios=[];
+    for(const id of f.pags){ const v=parseMoney(f.pagS[id]); if(v){ p[id]=v; fixo+=v; } else vazios.push(id); }
+    if(vazios.length && g.valor>fixo) Object.assign(p, splitW(g.valor-fixo, vazios, ()=>1));
+    else for(const id of vazios) p[id]=0;
+    g.pagadores=p;
+    g.pagou=Object.keys(p).sort((a,b)=>p[b]-p[a] || f.pags.indexOf(a)-f.pags.indexOf(b))[0];   // quem pagou mais
+  }
   if(f.modo==='manual'){ g.man={}; for(const k in f.manS){ const v=parseMoney(f.manS[k]); if(v) g.man[k]=v; } }
   if(f.modo==='itens'){ g.itens=f.itens.map(it=>({id:it.id,desc:it.desc.trim(),valor:parseMoney(it.valorS),part:[...it.part]})); }
   return g;
@@ -1124,10 +1158,12 @@ function formG(){
 function updPrev(){
   const tr=curT(); if(!U.sheet || U.sheet.type!=='gasto' || !tr) return;
   const g=formG(); const el=$('#gprev'); if(!el) return;
+  const pp=$('#pprev');
+  if(pp){ const e=g.valor?validPag(g):''; pp.innerHTML = !g.valor ? '' : e ? `<div class="err">${h(e)}</div>` : `<div class="ok">✅ ${Object.entries(g.pagadores).map(([id,v])=>h(mName(tr,id))+' '+R(v)).join(' · ')}</div>`; }
   const rv=$('#restV');
   if(rv && g.modo==='itens'){ const r=g.valor-(g.itens||[]).reduce((a,i)=>a+i.valor,0); rv.textContent='('+R(r)+')'; rv.style.color = r<0?'var(--neg)':''; }
   if(g.modo==='depois' || !g.valor){ el.innerHTML=''; $('#gerr').innerHTML=''; return; }
-  const err=validG(g);
+  const err=validG(g); if(err && validPag(g)){ el.innerHTML=''; $('#gerr').innerHTML=''; return; }
   if(g.modo==='manual'){
     const s=Object.values(g.man).reduce((a,b)=>a+b,0);
     el.innerHTML = `<div class="prev small row"><span class="grow">Soma: <b class="num">${R(s)}</b> de ${R(g.valor)}</span><b class="${s===g.valor?'':'neg'}">${s===g.valor?'✅ fechou':(s<g.valor?'faltam ':'sobram ')+R(Math.abs(g.valor-s))}</b></div>`;
@@ -1158,7 +1194,8 @@ function pushTag(){
 function focusTag(){ const i=$('[data-tag]'); if(i){ i.focus(); } }
 function newGForm(tr,over){
   const all=(tr.meta.members||[]).map(m=>m.id);
-  return Object.assign({id:uuid(), valorS:'', desc:'', cat:'mercado', pagou:meId(tr)??all[0], data:today(), modo:'igual', part:all, cotas:false, itens:[], manS:{}}, over||{});
+  const eu=meId(tr)??all[0];
+  return Object.assign({id:uuid(), valorS:'', desc:'', cat:'mercado', pags:eu?[eu]:[], pagS:{}, data:today(), modo:'igual', part:all, cotas:false, itens:[], manS:{}}, over||{});
 }
 
 const A = {
@@ -1241,7 +1278,7 @@ const A = {
   addMember(){ const n=(U.f.novo||'').trim(); if(!n) return; const mm=U.f.members; const used=new Set(mm.map(m=>m.c)); let c=0; while(used.has(c)&&c<AVC.length-1) c++; mm.push({id:uuid(),nome:n,cota:1,pix:'',tel:'',c,_new:true,_t:new Date().toISOString()}); U.f.novo=''; renderSheet(); },
   rmMember(d){
     const tr=curT(); const m=U.f.members[+d.i];
-    const used=Object.values(tr.g).some(g=> g.pagou===m.id || g.de===m.id || g.para===m.id || (g.part||[]).includes(m.id) || (g.man&&g.man[m.id]) || (g.itens||[]).some(i=>i.part.includes(m.id)));
+    const used=Object.values(tr.g).some(g=> payersOf(g)[m.id] || g.de===m.id || g.para===m.id || (g.part||[]).includes(m.id) || (g.man&&g.man[m.id]) || (g.itens||[]).some(i=>i.part.includes(m.id)));
     if(used){ $('#gerr').innerHTML=`<div class="err">${h(m.nome)} aparece em gastos. Tire a pessoa desses gastos antes de remover.</div>`; return; }
     U.f.members.splice(+d.i,1); renderSheet();
   },
@@ -1289,13 +1326,21 @@ const A = {
   addG(){ const tr=curT(); if(!(tr.meta.members||[]).length){ A.tripCfg(); return; } U.f=newGForm(tr); openSheet('gasto'); updPrev(); setTimeout(()=>{const i=$('.money'); i&&i.focus();},50); },
   editG(d){
     const tr=curT(); const g=tr.g[d.id]; if(!g) return;
-    U.f=newGForm(tr,{id:g.id,valorS:moneyIn(g.valor),desc:g.desc||'',cat:g.cat,pagou:g.pagou,data:g.data||today(),modo:g.modo,part:[...(g.part||[])],cotas:!!g.cotas,item:g.item,
+    const pg=g.pagadores&&Object.keys(g.pagadores).length>1 ? g.pagadores : null;
+    U.f=newGForm(tr,{id:g.id,valorS:moneyIn(g.valor),desc:g.desc||'',cat:g.cat,pags:pg?Object.keys(pg):[g.pagou],pagS:pg?Object.fromEntries(Object.entries(pg).map(([k,v])=>[k,moneyIn(v)])):{},data:g.data||today(),modo:g.modo,part:[...(g.part||[])],cotas:!!g.cotas,item:g.item,
       itens:(g.itens||[]).map(i=>({id:i.id,desc:i.desc,valorS:moneyIn(i.valor),part:[...i.part]})), manS:Object.fromEntries(Object.entries(g.man||{}).map(([k,v])=>[k,moneyIn(v)]))});
     if(g.modo==='depois') U.f.part=(tr.meta.members||[]).map(m=>m.id);
     openSheet('gasto'); updPrev();
   },
   fCat(d){ U.f.cat=d.k; renderSheet(); updPrev(); },
   fPagou(d){ U.f.pagou=d.id; renderSheet(); updPrev(); },
+  fPag(d){
+    const f=U.f; const i=f.pags.indexOf(d.id);
+    if(i>=0){ if(f.pags.length>1){ f.pags.splice(i,1); delete f.pagS[d.id]; } }
+    else f.pags.push(d.id);
+    if(f.pags.length<2) f.pagS={};
+    renderSheet(); updPrev();
+  },
   fModo(d){
     U.f.modo=d.k;
     if(d.k==='itens' && !U.f.itens.length) U.f.itens.push({id:'i'+rid(5),desc:'',valorS:'',part:[...U.f.part]});
@@ -1317,12 +1362,13 @@ const A = {
   },
   saveG(){
     const tr=curT(); const g=formG();
-    const err = g.modo==='depois' ? (!g.valor?'Informe o valor.':!g.pagou?'Escolha quem pagou.':'') : validG(g);
+    const err = g.modo==='depois' ? (!g.valor?'Informe o valor.':!g.pagou?'Escolha quem pagou.':validPag(g)) : validG(g);
     if(err){ $('#gerr').innerHTML=`<div class="err">${h(err)}</div>`; return; }
     if(g.modo==='depois'){ g.part=[]; }
     if(g.modo!=='manual') delete g.man;
     if(g.modo!=='itens'){ delete g.itens; }
     if(!g.item) delete g.item;
+    if(!g.pagadores) delete g.pagadores;
     putG(tr,g); closeSheet(); render(); toast('Gasto salvo');
   },
   delG(){
