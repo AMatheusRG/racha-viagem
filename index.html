@@ -172,6 +172,14 @@ a{color:var(--ac)}
 .tag button{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:var(--tx2);font-size:12px}
 .tagbox input{border:0;background:transparent;flex:1;min-width:140px;padding:8px 6px}
 .link{font-family:ui-monospace,Menlo,monospace;font-size:12px;word-break:break-all;background:var(--card2);border-radius:10px;padding:10px;color:var(--tx2);user-select:all;-webkit-user-select:all}
+.fotos{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.fotos .ft{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:var(--card2);border:1px solid var(--line)}
+.fotos .ft img{width:100%;height:100%;object-fit:cover;display:block}
+.fotos .ft button.x{position:absolute;top:3px;right:3px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.7);color:#fff;font-size:11px}
+.fotos .ft .nova{position:absolute;left:3px;bottom:3px;font-size:10px;background:var(--ac);color:var(--acTx);border-radius:6px;padding:1px 5px;font-weight:700}
+.addfoto{aspect-ratio:1;border-radius:10px;border:1.5px dashed var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;color:var(--tx2);cursor:pointer;text-align:center}
+.addfoto b{font-size:22px;font-weight:400}
+.viewer img{width:100%;border-radius:12px;display:block;background:#000}
 .spin{display:inline-block;width:18px;height:18px;border:2px solid var(--line);border-top-color:var(--ac);border-radius:50%;animation:sp 1s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 </style>
@@ -185,7 +193,7 @@ a{color:var(--ac)}
 <div id="toast"></div>
 <script>
 'use strict';
-const APPV = '0.5.0';
+const APPV = '0.6.0';
 // Supabase: URL e chave PUBLICÁVEL (feita para ficar no app; quem protege os dados são as regras RLS do banco)
 const SB_URL = 'https://praisiwdxpwgtcyqrxcb.supabase.co';
 const SB_KEY = 'sb_publishable_CRnn6Y0DPZ1KeZ0Df7aIWQ_efMbOwXI';
@@ -457,12 +465,13 @@ function rowToG(r){
   if(r.modo==='manual') g.man = r.man||{};
   if(r.modo==='itens') g.itens = r.itens||[];
   if(r.item_id) g.item = r.item_id;
+  if(Array.isArray(r.fotos) && r.fotos.length) g.fotos = r.fotos.slice();
   if(r.pagadores && Object.keys(r.pagadores).length>1) g.pagadores = Object.fromEntries(Object.entries(r.pagadores).map(([k,v])=>[k,Number(v)]));
   return g;
 }
 const gToRow = (tid,g) => g.tipo==='p'
   ? {id:g.id, trip_id:tid, tipo:'p', descr:'', cat:'outros', valor:g.valor, pagou:null, de:g.de, para:g.para, data:g.data||today(), modo:null, part:[], man:{}, itens:[], cotas:false, item_id:null, pagadores:{}}
-  : {id:g.id, trip_id:tid, tipo:'g', descr:(g.desc||'').slice(0,120), cat:g.cat, valor:g.valor, pagou:g.pagou, de:null, para:null, data:g.data||today(), modo:g.modo, part:g.part||[], man:g.man||{}, itens:g.itens||[], cotas:!!g.cotas, item_id:g.item||null, pagadores:g.pagadores||{}};
+  : {id:g.id, trip_id:tid, tipo:'g', descr:(g.desc||'').slice(0,120), cat:g.cat, valor:g.valor, pagou:g.pagou, de:null, para:null, data:g.data||today(), modo:g.modo, part:g.part||[], man:g.man||{}, itens:g.itens||[], cotas:!!g.cotas, item_id:g.item||null, pagadores:g.pagadores||{}, fotos:g.fotos||[]};
 const rowToIt = r => ({id:r.id, nome:r.nome, qtd:r.qtd||'', cat:r.cat, resp:r.resp, status:r.status, gid:r.gasto_id||undefined, ord:r.ord||0, t:Date.parse(r.updated_at)||0});
 const itToRow = (tid,i) => ({id:i.id, trip_id:tid, nome:i.nome, qtd:i.qtd||'', cat:i.cat||'outros', resp:i.resp||null, status:i.status||'pend', gasto_id:i.gid||null, ord:i.ord||0});
 const byCreated = (a,b) => String(a._t||'').localeCompare(String(b._t||'')) || (a.c-b.c);
@@ -578,6 +587,39 @@ function addMembers(tr, list){
   if(!isCloud(tr)) return Promise.resolve(true);
   return run(sb.from('trip_members').insert(list.map(m=>memberRow(tr.meta.id,m))), 'as pessoas');
 }
+
+/* ---------- fotos de comprovante (Supabase Storage, pasta privada "comprovantes") ---------- */
+const BUCKET='comprovantes';
+const thumbOf = p => p.replace(/\.jpg$/,'_t.jpg');
+const URLS = {};   // caminho -> {url, ate}
+// reduz a foto no próprio celular antes de enviar (~4 MB -> ~250 KB) e cria uma miniatura
+async function shrink(file, max, q){
+  let src;
+  try{ src = await createImageBitmap(file, {imageOrientation:'from-image'}); }
+  catch(e){ src = await new Promise((ok,err)=>{ const i=new Image(); i.onload=()=>ok(i); i.onerror=err; i.src=URL.createObjectURL(file); }); }
+  const w=src.width||src.naturalWidth, hh=src.height||src.naturalHeight, k=Math.min(1, max/Math.max(w,hh));
+  const c=document.createElement('canvas'); c.width=Math.round(w*k); c.height=Math.round(hh*k);
+  c.getContext('2d').drawImage(src,0,0,c.width,c.height);
+  return await new Promise(ok=>c.toBlob(ok,'image/jpeg',q));
+}
+async function signedUrls(paths){
+  const now=Date.now(), falta=paths.filter(p=>!(URLS[p] && URLS[p].ate>now));
+  if(falta.length && sb){
+    try{
+      const {data}=await sb.storage.from(BUCKET).createSignedUrls(falta, 3600);
+      (data||[]).forEach(d=>{ if(d && d.signedUrl) URLS[d.path]={url:d.signedUrl, ate:now+50*60*1000}; });
+    }catch(e){}
+  }
+  return paths.map(p=>URLS[p]?URLS[p].url:null);
+}
+// preenche as <img data-src-path> que aparecerem na tela
+async function fillImgs(root){
+  const els=[...(root||document).querySelectorAll('img[data-src-path]')]; if(!els.length) return;
+  const paths=[...new Set(els.map(e=>e.dataset.srcPath))];
+  const urls=await signedUrls(paths); const map=Object.fromEntries(paths.map((p,i)=>[p,urls[i]]));
+  els.forEach(e=>{ const u=map[e.dataset.srcPath]; if(u && e.src!==u) e.src=u; else if(!u) e.alt='Foto indisponível'; });
+}
+const PIX='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 
 /* ---------- início: conta (login sem cadastro) + dados ---------- */
 function setUser(u){
@@ -876,7 +918,7 @@ function gastosHTML(tr){
     const mine = U.fpess && sh ? `<div class="tiny mut">parte: ${R(sh[U.fpess]||0)}</div>` : '';
     html += `<button class="li" data-a="editG" data-id="${g.id}"><div class="ci" style="background:${k.c}26">${k.e}</div>
       <div class="grow"><div class="t">${h(g.desc||k.n)}</div><div class="s">${av(tr,g.pagou,'s').replace('class="av s"','class="av s" style="width:16px;height:16px;font-size:8px;border:0;display:inline-grid;vertical-align:-3px;background:'+AVC[((mem(tr,g.pagou)||{}).c||0)%AVC.length]+'"')} ${pagouTxt(tr,g)} · ${modoTxt}</div></div>
-      <div class="v num">${R(g.valor)}${mine}</div></button>`;
+      <div class="v num">${R(g.valor)}${mine}${g.fotos&&g.fotos.length?`<div class="tiny mut" title="Tem comprovante">📎 ${g.fotos.length}</div>`:''}</div></button>`;
   }
   html += `</div></div>`;
   return html;
@@ -993,12 +1035,22 @@ function renderSheet(){
   const sc = $('.sh') ? $('.sh').scrollTop : 0;
   $('#sheet').innerHTML = `<div class="bk" data-a="bk"><div class="sh" role="dialog"><div class="grip"></div>${fn()}</div></div>`;
   const s=$('.sh'); if(s) s.scrollTop=sc;
+  fillImgs($('#sheet')).then(()=>{ const a=$('#fotoAbrir'), i=$('.viewer img'); if(a&&i&&i.src.startsWith('http')) a.href=i.src; });
 }
 // campo de etiquetas: digita um nome, Enter adiciona e o campo fica pronto para o próximo
 function tagBox(names, ph){
   return `<div class="tagbox">${names.map((n,i)=>`<span class="tag"><span class="av" style="background:${AVC[i%AVC.length]}">${h(initials(n))}</span>${h(n)}<button data-a="tagDel" data-i="${i}" aria-label="Remover ${h(n)}">✕</button></span>`).join('')}
     <input data-f="tagIn" data-tag="1" enterkeyhint="enter" autocomplete="off" placeholder="${h(ph)}" value="${h(U.f.tagIn||'')}"></div>
     <div class="row" style="margin-top:6px"><span class="tiny mut grow">Digite e aperte <b>Enter</b> para incluir outro nome.</span><button class="btn sec sm" data-a="tagAdd">+ Incluir</button></div>`;
+}
+function fotosHTML(tr,f){
+  if(!isCloud(tr)) return `<label class="fl">Nota fiscal / comprovante</label><div class="tiny mut">Fotos ficam disponíveis nas viagens do grupo (não na de exemplo).</div>`;
+  const tot=f.fotos.length+f.novas.length;
+  return `<label class="fl">Nota fiscal / comprovante <span class="mut" style="text-transform:none;letter-spacing:0;font-weight:400">· ${tot}/6</span></label>
+    <div class="fotos">${f.fotos.map((p,i)=>`<div class="ft"><img data-src-path="${h(thumbOf(p))}" src="${PIX}" alt="Comprovante" data-a="verFoto" data-p="${h(p)}"><button class="x" data-a="rmFoto" data-i="${i}" aria-label="Remover foto">✕</button></div>`).join('')}
+    ${f.novas.map((n,i)=>`<div class="ft"><img src="${n.prev}" alt="Nova foto"><span class="nova">nova</span><button class="x" data-a="rmNova" data-i="${i}" aria-label="Remover foto">✕</button></div>`).join('')}
+    ${tot<6?`<label class="addfoto"><b>📷</b>Foto da nota<input type="file" accept="image/*" data-file="1" style="display:none"></label>`:''}</div>
+    <div id="ferr"></div>`;
 }
 const xBtn = `<button class="ib x" data-a="close" aria-label="Fechar">✕</button>`;
 function ppick(tr, sel, act, extra=''){
@@ -1039,6 +1091,7 @@ const SHEETS = {
     if(f.modo==='depois'){
       s += `<div class="prev small">⏳ Fica marcado como <b>"a dividir"</b>. Conta no total da viagem, mas <b>não entra no acerto</b> até alguém definir a divisão. Ideal para "comprei para o grupo, depois a gente vê".</div>`;
     }
+    s += fotosHTML(tr,f);
     s += `<div id="gprev"></div><div id="gerr"></div>
       <button class="btn full" style="margin-top:14px" data-a="saveG">Salvar gasto</button>
       ${!isNew?`<button class="btn dan full" style="margin-top:8px" data-a="delG">Excluir gasto</button>`:''}`;
@@ -1119,6 +1172,11 @@ const SHEETS = {
       <button class="btn full" style="margin-top:12px" data-a="savePeople">${U.f.tags.length?'Adicionar '+U.f.tags.length+' pessoa'+(U.f.tags.length>1?'s':''):'Adicionar'}</button>
       <button class="btn sec full" style="margin-top:8px" data-a="tripCfg">Editar cotas, Pix e WhatsApp</button>`;
     return s;
+  },
+  foto(){
+    const sh=U.sheet;
+    return `<h2>🧾 Comprovante${xBtn}</h2><div class="viewer"><img data-src-path="${h(sh.p)}" src="${PIX}" alt="Comprovante em tamanho real" style="min-height:200px"></div>
+      <div class="row" style="gap:8px;margin-top:12px">${sh.back?`<button class="btn sec grow" data-a="fotoVoltar">‹ Voltar ao gasto</button>`:''}<a class="btn grow" style="text-decoration:none" target="_blank" rel="noopener" id="fotoAbrir" href="#">Abrir / baixar</a></div>`;
   },
   install(){
     const ios=isIOS();
@@ -1271,6 +1329,7 @@ function pushTag(){
 }
 function focusTag(){ const i=$('[data-tag]'); if(i){ i.focus(); } }
 function newGForm(tr,over){
+  over=Object.assign({fotos:[],novas:[],rmFotos:[]},over||{});
   const all=(tr.meta.members||[]).map(m=>m.id);
   const eu=meId(tr)??all[0];
   return Object.assign({id:uuid(), valorS:'', desc:'', cat:'mercado', pags:eu?[eu]:[], pagS:{}, data:today(), modo:'igual', part:all, cotas:false, itens:[], manS:{}}, over||{});
@@ -1397,6 +1456,9 @@ const A = {
     const tr=curT();
     ask(`Excluir <b>${h(tr.meta.name)}</b>${isCloud(tr)?' para <b>todo o grupo</b>':''}? Isso apaga gastos e lista. Não dá para desfazer.`,'Excluir',async()=>{
       const id=tr.meta.id;
+      // fotos primeiro: depois de excluir a viagem ninguém mais tem permissão sobre elas
+      const fotos=Object.values(tr.g||{}).flatMap(g=>g.fotos||[]);
+      if(isCloud(tr) && fotos.length) try{ await sb.storage.from(BUCKET).remove(fotos.flatMap(p=>[p,thumbOf(p)])); }catch(e){}
       if(isCloud(tr) && !(await run(sb.from('trips').delete().eq('id',id),'a exclusão'))) return;
       S.my=S.my.filter(x=>x!==id); delete S.trips[id]; delete S.me[id]; S.cur=null; saveLocal(); closeSheet(); U.view='trips'; render(); toast('Viagem excluída');
     });
@@ -1411,7 +1473,7 @@ const A = {
   editG(d){
     const tr=curT(); const g=tr.g[d.id]; if(!g) return;
     const pg=g.pagadores&&Object.keys(g.pagadores).length>1 ? g.pagadores : null;
-    U.f=newGForm(tr,{id:g.id,valorS:moneyIn(g.valor),desc:g.desc||'',cat:g.cat,pags:pg?Object.keys(pg):[g.pagou],pagS:pg?Object.fromEntries(Object.entries(pg).map(([k,v])=>[k,moneyIn(v)])):{},data:g.data||today(),modo:g.modo,part:[...(g.part||[])],cotas:!!g.cotas,item:g.item,
+    U.f=newGForm(tr,{fotos:(g.fotos||[]).slice(),id:g.id,valorS:moneyIn(g.valor),desc:g.desc||'',cat:g.cat,pags:pg?Object.keys(pg):[g.pagou],pagS:pg?Object.fromEntries(Object.entries(pg).map(([k,v])=>[k,moneyIn(v)])):{},data:g.data||today(),modo:g.modo,part:[...(g.part||[])],cotas:!!g.cotas,item:g.item,
       itens:(g.itens||[]).map(i=>({id:i.id,desc:i.desc,valorS:moneyIn(i.valor),part:[...i.part]})), manS:Object.fromEntries(Object.entries(g.man||{}).map(([k,v])=>[k,moneyIn(v)]))});
     if(g.modo==='depois') U.f.part=(tr.meta.members||[]).map(m=>m.id);
     openSheet('gasto'); updPrev();
@@ -1444,7 +1506,7 @@ const A = {
     const sp=splitW(tot-s, empty, ()=>1); for(const id in sp) f.manS[id]=moneyIn(sp[id]);
     renderSheet(); updPrev();
   },
-  saveG(){
+  async saveG(){
     const tr=curT(); const g=formG();
     const err = g.modo==='depois' ? (!g.valor?'Informe o valor.':!g.pagou?'Escolha quem pagou.':validPag(g)) : validG(g);
     if(err){ $('#gerr').innerHTML=`<div class="err">${h(err)}</div>`; return; }
@@ -1453,13 +1515,50 @@ const A = {
     if(g.modo!=='itens'){ delete g.itens; }
     if(!g.item) delete g.item;
     if(!g.pagadores) delete g.pagadores;
-    putG(tr,g); closeSheet(); render(); toast('Gasto salvo');
+    const f=U.f; g.fotos=f.fotos.slice();
+    if(f.novas.length){
+      const btn=$('[data-a=saveG]'); if(btn){ btn.disabled=true; btn.textContent='Enviando foto…'; }
+      const tid=tr.meta.id; let falhas=0;
+      for(const n of f.novas){
+        const p=`${tid}/${g.id}/${n.id}.jpg`;
+        try{
+          const a=await sb.storage.from(BUCKET).upload(p, n.blob, {contentType:'image/jpeg', upsert:false});
+          if(a.error) throw a.error;
+          await sb.storage.from(BUCKET).upload(thumbOf(p), n.thumb, {contentType:'image/jpeg', upsert:false});
+          g.fotos.push(p); URLS[thumbOf(p)]={url:n.prev, ate:Date.now()+50*60*1000};
+        }catch(e){ console.warn('foto', e); falhas++; }
+      }
+      if(falhas) toast(falhas+' foto(s) não subiram. Confira a internet e tente de novo.');
+    }
+    if(!g.fotos.length) delete g.fotos;
+    const rm=f.rmFotos.slice(), comFoto=f.novas.length;
+    const pr=putG(tr,g);              // atualiza a memória na hora; o banco responde depois
+    closeSheet(); render(); if(!comFoto) toast('Gasto salvo'); else toast('Gasto e foto salvos 📎');
+    await pr;
+    if(rm.length && sb) try{ await sb.storage.from(BUCKET).remove(rm.flatMap(p=>[p,thumbOf(p)])); }catch(e){}
   },
+  async addFoto(file){
+    const f=U.f, err=$('#ferr');
+    if(f.fotos.length+f.novas.length>=6) return;
+    try{
+      if(err) err.innerHTML='<div class="ok"><span class="spin" style="width:12px;height:12px"></span> Preparando foto…</div>';
+      const blob=await shrink(file,1600,.72), thumb=await shrink(file,320,.7);
+      if(!blob || blob.size>3*1024*1024) throw new Error('grande');
+      f.novas.push({id:uuid(), blob, thumb, prev:URL.createObjectURL(thumb)});
+      renderSheet();
+    }catch(e){ if(err) err.innerHTML='<div class="err">Não consegui ler essa imagem. Tente outra foto (JPG ou PNG).</div>'; }
+  },
+  rmFoto(d){ const p=U.f.fotos.splice(+d.i,1)[0]; if(p) U.f.rmFotos.push(p); renderSheet(); },
+  rmNova(d){ U.f.novas.splice(+d.i,1); renderSheet(); },
+  verFoto(d){ openSheet('foto',{p:d.p, back:U.sheet&&U.sheet.type==='gasto'?{f:U.f}:null}); },
+  fotoVoltar(){ const b=U.sheet&&U.sheet.back; if(b){ U.f=b.f; openSheet('gasto'); updPrev(); } else closeSheet(); },
   delG(){
     const tr=curT(); const id=U.f.id;
     ask('Excluir este gasto?','Excluir',async()=>{
       for(const it of Object.values(tr.it)) if(it.gid===id) delete it.gid;   // o banco também solta o vínculo
+      const fotos=(tr.g[id]&&tr.g[id].fotos)||[];
       await delG(tr,id);
+      if(fotos.length && sb) try{ await sb.storage.from(BUCKET).remove(fotos.flatMap(p=>[p,thumbOf(p)])); }catch(e){}
       closeSheet(); render(); toast('Gasto excluído');
     });
   },
@@ -1565,6 +1664,7 @@ document.addEventListener('input', ev=>{
   updPrev();
 });
 document.addEventListener('change', ev=>{
+  if(ev.target && ev.target.dataset && ev.target.dataset.file){ const fl=ev.target.files&&ev.target.files[0]; if(fl) A.addFoto(fl); ev.target.value=''; return; }
   const el=ev.target.closest('[data-f]'); if(!el || !U.f) return;
   if(el.type==='checkbox'){ setPath(U.f, el.dataset.f, el.checked); updPrev(); }
 });
