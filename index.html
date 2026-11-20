@@ -185,7 +185,7 @@ a{color:var(--ac)}
 <div id="toast"></div>
 <script>
 'use strict';
-const APPV = '0.4.1';
+const APPV = '0.5.0';
 // Supabase: URL e chave PUBLICÁVEL (feita para ficar no app; quem protege os dados são as regras RLS do banco)
 const SB_URL = 'https://praisiwdxpwgtcyqrxcb.supabase.co';
 const SB_KEY = 'sb_publishable_CRnn6Y0DPZ1KeZ0Df7aIWQ_efMbOwXI';
@@ -341,6 +341,58 @@ function consumo(tr){
   for(const g of Object.values(tr.g||{})){ if(g.tipo==='p') continue; const sh=sharesOf(g,tr); if(sh) addTo(o,sh); }
   return o;
 }
+// Acerto "cada um paga a sua parte": a parte de cada pessoa em cada gasto vai para quem pagou aquele gasto
+// (vários pagadores: na proporção do que cada um pagou). Entre o mesmo par, uma dívida desconta a outra.
+// Pagamentos já registrados (Marcar pago) descontam do par. Resultado: no máximo 1 transferência por par.
+function direct(tr){
+  const D={}, why={};
+  const add=(a,b,v,lbl)=>{ if(a===b || !v) return; const k=a+'|'+b; D[k]=(D[k]||0)+v; (why[k]=why[k]||[]).push([lbl,v]); };
+  const gs=Object.values(tr.g||{}).sort((x,y)=>(x.data||'').localeCompare(y.data||'') || (x.t||0)-(y.t||0));
+  for(const g of gs){
+    if(g.tipo==='p') continue;
+    const sh=sharesOf(g,tr); if(!sh) continue;
+    const pay=payersOf(g); const pids=Object.keys(pay); if(!pids.length) continue;
+    const lbl=g.desc||(CAT[g.cat]||CAT.outros).n;
+    const M = splitMatrix(sh, pay);
+    for(const id in M) for(const p in M[id]) add(id, p, M[id][p], lbl);
+  }
+  for(const g of gs) if(g.tipo==='p') add(g.para, g.de, g.valor, '__pago');   // pagamento feito: desconta do par
+  const out=[], seen=new Set(), ord=id=>{ const i=(tr.meta.members||[]).findIndex(m=>m.id===id); return i<0?999:i; };
+  for(const k in D){
+    const [a,b]=k.split('|'); const pk=a<b?a+'|'+b:b+'|'+a; if(seen.has(pk)) continue; seen.add(pk);
+    const v=(D[a+'|'+b]||0)-(D[b+'|'+a]||0); if(!v) continue;
+    const [de,para,val]= v>0 ? [a,b,v] : [b,a,-v];
+    out.push({de, para, valor:val, por:why[de+'|'+para]||[], menos:why[para+'|'+de]||[]});
+  }
+  return out.sort((x,y)=>ord(x.de)-ord(y.de) || ord(x.para)-ord(y.para));
+}
+// Divide as partes (linhas) entre os pagadores (colunas) na proporção do que cada um pagou,
+// fechando EXATAMENTE as duas somas: cada pessoa paga sua parte e cada pagador recebe o que pagou.
+// (Arredondar linha por linha deixava 1 centavo sobrando/faltando em alguns pagadores.)
+function splitMatrix(sh, pay){
+  const rows=Object.keys(sh), cols=Object.keys(pay), V=cols.reduce((a,p)=>a+pay[p],0), M={}, fr=[];
+  const rr={}, cr={};
+  for(const i of rows){ M[i]={}; rr[i]=sh[i]; }
+  for(const p of cols) cr[p]=pay[p];
+  for(const i of rows) for(const p of cols){
+    const x=sh[i]*pay[p]/V, f=Math.floor(x);
+    M[i][p]=f; rr[i]-=f; cr[p]-=f; fr.push([x-f,i,p]);
+  }
+  fr.sort((a,b)=>b[0]-a[0]);
+  for(const [,i,p] of fr) if(rr[i]>0 && cr[p]>0){ M[i][p]++; rr[i]--; cr[p]--; }
+  for(const i of rows) for(const p of cols) while(rr[i]>0 && cr[p]>0){ M[i][p]++; rr[i]--; cr[p]--; }   // sobra rara
+  return M;
+}
+function whyTxt(t){
+  const fmt=a=>a.map(([l,v])=> l==='__pago' ? 'já pago '+R(v) : h(l)+' '+R(v));
+  const mais=fmt(t.por.filter(x=>x[0]!=='__pago')), pagos=t.por.filter(x=>x[0]==='__pago');
+  const menos=fmt(t.menos);
+  let s = mais.slice(0,3).join(' + ') + (mais.length>3?' + mais '+(mais.length-3):'');
+  if(menos.length) s += (s?' − ':'− ') + menos.slice(0,2).join(' − ') + (menos.length>2?' …':'');
+  return s;
+}
+const acMode = tr => (S.acMode||{})[tr.meta.id] || 'direto';
+const transfers = (tr,c) => acMode(tr)==='simples' ? settle(c.bal) : direct(tr);
 function settle(bal){
   const cr=[], db=[];
   for(const id in bal){ const v=bal[id]; if(v>0) cr.push([id,v]); else if(v<0) db.push([id,-v]); }
@@ -864,15 +916,18 @@ function listaHTML(tr){
 /* ----- Acerto ----- */
 function acertoHTML(tr){
   const c=calc(tr); const mm=tr.meta.members||[];
-  if(!c.total) return `<div class="empty"><div class="e">💸</div><b>Nada para acertar ainda</b>Quando houver gastos, aqui aparece quem paga quem — com o menor número de transferências.</div>`;
-  const tf=settle(c.bal); const cons=consumo(tr);
+  if(!c.total) return `<div class="empty"><div class="e">💸</div><b>Nada para acertar ainda</b>Quando houver gastos, aqui aparece quem paga quem.</div>`;
+  const modo=acMode(tr); const tf=transfers(tr,c); const cons=consumo(tr);
   let html='';
   if(c.pendN) html += `<button class="banner tcard" data-a="pendList">⏳ <span class="grow">${c.pendN} gasto(s) de ${R(c.pend)} ainda <b>sem divisão</b> — defina para entrarem no acerto.</span><span>›</span></button>`;
-  html += `<div class="card"><h3>Transferências para zerar<span class="sp"></span><span class="num" style="color:var(--tx)">${tf.length}</span></h3>`;
+  html += `<div class="seg" style="margin-bottom:6px"><button class="${modo==='direto'?'on':''}" data-a="acMode" data-k="direto">Cada um paga sua parte</button><button class="${modo==='simples'?'on':''}" data-a="acMode" data-k="simples">Menos Pix</button></div>
+    <div class="tiny mut" style="margin:0 4px 10px">${modo==='direto'?'Cada pessoa paga a sua parte direto para quem pagou cada conta. Se duas pessoas se devem, uma dívida desconta a outra.':'O mínimo de Pix para zerar todo mundo. Os valores finais são os mesmos, mas alguém pode pagar para quem não pagou a conta dele.'}</div>`;
+  html += `<div class="card"><h3>${modo==='direto'?'Quem paga quem':'Transferências para zerar'}<span class="sp"></span><span class="num" style="color:var(--tx)">${tf.length}</span></h3>`;
   if(!tf.length) html += `<div class="empty" style="padding:14px"><div class="e">✅</div><b>Tudo acertado!</b>Ninguém deve ninguém.</div>`;
   for(const t of tf){
     const pm = mem(tr,t.para)||{};
     html += `<div class="tr">${av(tr,t.de)}<div class="grow" style="min-width:0"><div style="font-weight:600;font-size:14px">${h(mName(tr,t.de))} <span class="arrow">→</span> ${h(mName(tr,t.para))}</div>
+      ${t.por?`<div class="tiny mut" style="margin-top:3px">${whyTxt(t)}</div>`:''}
       <div class="row" style="gap:6px;margin-top:6px">${pm.pix?`<button class="btn sec sm" data-a="copy" data-v="${h(pm.pix)}">Copiar Pix</button>`:''}${canEdit(tr)?`<button class="btn sm" data-a="markPaid" data-de="${t.de}" data-para="${t.para}" data-v="${t.valor}">Marcar pago</button>`:''}</div></div>
       <div style="text-align:right"><div class="num" style="font-weight:800;font-size:17px">${R(t.valor)}</div></div>${av(tr,t.para)}</div>`;
   }
@@ -1349,6 +1404,7 @@ const A = {
   orc(){ const tr=curT(); U.f={orc:Object.fromEntries(Object.entries(tr.meta.orc||{}).map(([k,v])=>[k,moneyIn(v)]))}; openSheet('orc'); },
   saveOrc(){ const tr=curT(); const o={}; for(const k in U.f.orc){ const v=parseMoney(U.f.orc[k]); if(v) o[k]=v; } tr.meta.orc=o; putMeta(tr); closeSheet(); render(); },
   pendList(){ openSheet('pend'); },
+  acMode(d){ const tr=curT(); S.acMode=S.acMode||{}; S.acMode[tr.meta.id]=d.k; saveLocal(); render(); },
 
   /* gasto */
   addG(){ const tr=curT(); if(!(tr.meta.members||[]).length){ A.tripCfg(); return; } U.f=newGForm(tr); openSheet('gasto'); updPrev(); setTimeout(()=>{const i=$('.money'); i&&i.focus();},50); },

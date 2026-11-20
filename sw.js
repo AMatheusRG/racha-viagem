@@ -1,7 +1,7 @@
 // Racha Viagem — service worker: deixa o app abrir mesmo sem internet.
 // Página: tenta a rede primeiro (pega sempre a versão nova) e cai no cache se estiver offline.
 // Banco (Supabase): nunca passa por aqui — dados sempre ao vivo.
-const CACHE = 'rv-v0.4.1';
+const CACHE = 'rv-v0.5.0';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 const CDN = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
 
